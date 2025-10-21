@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import json
 from typing import List, Dict, Optional, Any
 
 class DatabaseManager:
@@ -42,22 +43,22 @@ class DatabaseManager:
         conn.commit()
         conn.close()
     
-    def add_mcp_server(self, name: str, transport: str, command: Optional[str] = None, 
-                      args: Optional[List[str]] = None, url: Optional[str] = None, 
+    def add_mcp_server(self, name: str, transport: str, command: Optional[str] = None,
+                      args: Optional[Any] = None, url: Optional[str] = None,
                       description: Optional[str] = None) -> bool:
         """Add a new MCP server configuration."""
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            
-            # Convert args list to string for storage
-            args_str = ','.join(args) if args else None
-            
+
+            # Convert args to JSON string for storage
+            args_str = json.dumps(args) if args is not None else None
+
             cursor.execute('''
                 INSERT INTO mcp_servers (name, description, transport, command, args, url)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (name, description, transport, command, args_str, url))
-            
+
             conn.commit()
             conn.close()
             return True
@@ -71,23 +72,27 @@ class DatabaseManager:
         """Retrieve all MCP server configurations."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         if enabled_only:
             cursor.execute('SELECT * FROM mcp_servers WHERE enabled = 1')
         else:
             cursor.execute('SELECT * FROM mcp_servers')
-        
+
         rows = cursor.fetchall()
         columns = [description[0] for description in cursor.description]
-        
+
         servers = []
         for row in rows:
             server = dict(zip(columns, row))
-            # Convert args string back to list
+            # Convert args JSON string back to original format
             if server['args']:
-                server['args'] = server['args'].split(',')
+                try:
+                    server['args'] = json.loads(server['args'])
+                except (json.JSONDecodeError, TypeError):
+                    # If parsing fails, keep as string
+                    pass
             servers.append(server)
-        
+
         conn.close()
         return servers
     
@@ -96,24 +101,24 @@ class DatabaseManager:
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            
+
             # Build dynamic update query
             fields = []
             values = []
             for key, value in kwargs.items():
                 if key in ['name', 'description', 'transport', 'command', 'args', 'url', 'enabled']:
                     fields.append(f"{key} = ?")
-                    # Convert args list to string
-                    if key == 'args' and isinstance(value, list):
-                        value = ','.join(value)
+                    # Convert args to JSON string for storage
+                    if key == 'args':
+                        value = json.dumps(value) if value is not None else None
                     values.append(value)
-            
+
             if not fields:
                 return False
-                
+
             values.append(server_id)
             query = f"UPDATE mcp_servers SET {', '.join(fields)} WHERE id = ?"
-            
+
             cursor.execute(query, values)
             conn.commit()
             conn.close()

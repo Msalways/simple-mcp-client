@@ -2,10 +2,15 @@ from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from mcp_client.manager import MCPManager
 from mcp_servers import fetch_mcp_servers_as_config
+from chat.callbacks import ToolValidationCallback
 from pydantic import SecretStr
 import os
 from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
+
+# Remove unused imports
+# from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+# from langchain_core.messages import HumanMessage, AIMessage
 
 load_dotenv()
 
@@ -27,25 +32,58 @@ class MCPAgent:
         
         # Get tools from MCP servers
         tools = []
+        connection_errors = []
         try:
             print("MCPAgent: Fetching tools from MCP manager...")
             tools = await self.client.get_tools()
             print(f"MCPAgent: Successfully loaded {len(tools)} MCP tools")
+            
+            # Check connection status
+            connection_status = await self.client.get_connection_status()
+            print(f"MCPAgent: Connection status: {connection_status}")
+            
+            # Check for any closed connections and collect errors
+            for name, status in connection_status.items():
+                if status != "Active" or "Error" in str(status):
+                    connection_errors.append(f"Server '{name}' connection issue: {status}")
+                    
         except Exception as e:
-            print(f"MCPAgent: Warning: Could not load MCP tools: {e}")
+            error_msg = str(e)
+            print(f"MCPAgent: Warning: Could not load MCP tools: {error_msg}")
             import traceback
             traceback.print_exc()
             tools = []
+            
+            # Check if this is a connection closed error
+            if "Connection closed" in error_msg or "connection closed" in error_msg.lower():
+                connection_errors.append(f"Connection closed error: {error_msg}")
         
-        # Create LangChain agent with tools (or without if no tools available)
+        # Report connection errors if any
+        if connection_errors:
+            print(f"MCPAgent: Connection errors detected: {connection_errors}")
+
+        # Create the tool validation callback
+        self.validation_callback = ToolValidationCallback()
+
+        # Create LangChain agent with tools and callbacks
         print("MCPAgent: Creating LangChain agent...")
         self.agent = create_agent(
             model=chat_model,
             tools=tools if tools else None,
             debug=True
         )
+
+        # If agent supports callbacks, add our validation callback
+        if hasattr(self.agent, 'callbacks'):
+            self.agent.callbacks = [self.validation_callback]
+        elif hasattr(self.agent, 'add_callback'):
+            self.agent.add_callback(self.validation_callback)
+
         print("MCPAgent: Agent created successfully")
-        
+
+        # Store connection errors for later use
+        self.connection_errors = connection_errors
+
         return self
     
     def _create_chat_model(self, config: Dict[str, Any]):
@@ -91,18 +129,61 @@ class MCPAgent:
             messages.append({"role": "user", "content": input_text})
             
             print(f"MCPAgent: Full messages: {messages}")
+            # Clear previous validation failures
+            self.validation_callback.clear_failures()
+
             # Execute the agent with the messages
             # In LangChain 1.0.0, we pass messages directly
             response = await self.agent.ainvoke({"messages": messages})
-            
+
+            # Check for validation failures that may need user input
+            validation_failures = self.validation_callback.get_tool_call_failures()
+            if validation_failures:
+                print(f"MCPAgent: Validation failures detected: {validation_failures}")
+                # Return a special response indicating missing parameters
+                missing_params_info = []
+                for run_id, failure_info in validation_failures.items():
+                    missing_params = failure_info.get('missing_params', [])
+                    tool_name = failure_info.get('tool_name', 'Unknown tool')
+                    if missing_params:
+                        missing_params_info.append(f"Tool '{tool_name}' needs: {', '.join(missing_params)}")
+
+                if missing_params_info:
+                    error_msg = f"⚠️ The AI attempted to use tools but couldn't provide required parameters. Please provide the missing information:\n" + "\n".join(missing_params_info)
+                    error_msg += "\n\n💡 Tip: Try asking more specifically, e.g., 'What's the weather in Bangalore?' instead of just 'What's the weather?'"
+                    return error_msg
+
             # Extract the output content from the response
             result = self._extract_content(response)
             print(f"MCPAgent: Execution result: {result}")
+
+            # If we had connection errors, append a note to the result
+            if hasattr(self, 'connection_errors') and self.connection_errors:
+                error_note = "\n\n⚠️ Note: Some MCP server connections encountered issues. Only built-in tools are available."
+                result += error_note
+
             return result
         except Exception as e:
             print(f"MCPAgent: Error executing agent: {e}")
             import traceback
             traceback.print_exc()
+            
+            # Check connection status when we get an error
+            try:
+                connection_status = await self.client.get_connection_status()
+                connection_errors = []
+                for name, status in connection_status.items():
+                    if status != "Active" or "Error" in str(status):
+                        connection_errors.append(f"Server '{name}' connection issue: {status}")
+                
+                if connection_errors:
+                    error_msg = f"Connection errors detected: {', '.join(connection_errors)}. "
+                    error_msg += "Please check your MCP server configurations in the Settings tab."
+                    print(f"MCPAgent: {error_msg}")
+                    return f"Error executing agent: {str(e)}. {error_msg}"
+            except Exception as status_error:
+                print(f"MCPAgent: Error checking connection status: {status_error}")
+            
             return f"Error executing agent: {str(e)}"
     
     def _extract_content(self, response) -> str:

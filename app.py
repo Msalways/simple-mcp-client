@@ -4,6 +4,8 @@ from database import DatabaseManager
 from chat.agent import MCPAgent
 import asyncio
 import pandas as pd
+import json
+from mcp_client.manager import MCPManager
 
 # Initialize database manager
 db_manager = DatabaseManager()
@@ -34,6 +36,8 @@ if "edit_server_data" not in st.session_state:
     st.session_state.edit_server_data = None
 if "edit_config_data" not in st.session_state:
     st.session_state.edit_config_data = None
+if "connection_alert" not in st.session_state:
+    st.session_state.connection_alert = None
 
 # Sidebar navigation
 st.sidebar.title("🤖 MCP Chat Application")
@@ -57,13 +61,30 @@ async def run_agent(agent: MCPAgent, prompt: str, chat_history, llm_config):
         # Initialize the agent with the LLM configuration
         await agent.initialize_agent(llm_config)
         response = await agent.execute(prompt, chat_history)
+        
+        # Check if there were connection errors and set alert
+        if hasattr(agent, 'connection_errors') and agent.connection_errors:
+            st.session_state.connection_alert = "⚠️ Connection issue detected with MCP servers. Only built-in tools are available. Please check your MCP server configurations in the Settings tab."
+        
         return response
     except Exception as e:
-        return f"Error occurred: {str(e)}"
+        error_msg = str(e)
+        # Check if the error is related to connection issues
+        if "connection" in error_msg.lower() or "closed" in error_msg.lower():
+            st.session_state.connection_alert = "⚠️ Connection error detected! Please check your MCP server configurations in the Settings tab."
+        return f"Error occurred: {error_msg}"
 
 if st.session_state.current_page == "Chat":
     st.title("💬 Chat")
     st.subheader("Chat with your MCP-enabled AI assistant")
+    
+    # Display connection alert if there is one
+    if st.session_state.connection_alert:
+        st.error(st.session_state.connection_alert)
+        # Option to dismiss the alert
+        if st.button("Dismiss Alert"):
+            st.session_state.connection_alert = None
+            st.rerun()
     
     # LLM selection dropdown
     if llm_options:
@@ -112,6 +133,10 @@ if st.session_state.current_page == "Chat":
                     full_response = asyncio.run(run_agent(agent, prompt, chat_history, selected_llm))
                 except Exception as e:
                     full_response = f"Error occurred: {str(e)}"
+                    # Check if the error is related to connection issues
+                    error_msg = str(e)
+                    if "connection" in error_msg.lower() or "closed" in error_msg.lower():
+                        st.session_state.connection_alert = "⚠️ Connection error detected! Please check your MCP server configurations in the Settings tab."
             else:
                 full_response = "Please configure an LLM in the Settings tab."
             
@@ -134,20 +159,6 @@ elif st.session_state.current_page == "Settings":
         servers = db_manager.get_mcp_servers(enabled_only=False)
         
         if servers:
-            # Create a table to display servers with actions
-            df_data = []
-            for server in servers:
-                df_data.append({
-                    "ID": server['id'],
-                    "Name": server['name'],
-                    "Description": server['description'] or "",
-                    "Transport": server['transport'],
-                    "Status": "Enabled" if server['enabled'] else "Disabled"
-                })
-            
-            df = pd.DataFrame(df_data)
-            st.dataframe(df, width='stretch', hide_index=True)
-            
             # Action buttons for each server
             for i, server in enumerate(servers):
                 cols = st.columns([3, 3, 2, 2, 1, 1])
@@ -180,21 +191,6 @@ elif st.session_state.current_page == "Settings":
         configs = db_manager.get_llm_configs(enabled_only=False)
         
         if configs:
-            # Create a table to display configurations
-            df_data = []
-            for config in configs:
-                df_data.append({
-                    "ID": config['id'],
-                    "Name": config['name'],
-                    "Provider": config['provider'],
-                    "Model": config['model'] or "Default",
-                    "Base URL": config['base_url'] or "Default",
-                    "Status": "Enabled" if config['enabled'] else "Disabled"
-                })
-            
-            df = pd.DataFrame(df_data)
-            st.dataframe(df, width='stretch', hide_index=True)
-            
             # Action buttons for each configuration
             for i, config in enumerate(configs):
                 cols = st.columns([2, 2, 2, 2, 2, 1, 1])
@@ -258,10 +254,10 @@ if st.session_state.show_mcp_modal:
             else:
                 # Transport selection outside the form
                 transport = st.selectbox(
-                    "Transport Type", 
-                    ["stdio", "http", "sse"], 
+                    "Transport Type",
+                    ["stdio", "streamable_http", "sse"],
                     key="add_server_transport_selector_modal",
-                    index=["stdio", "http", "sse"].index(st.session_state.add_server_transport) if st.session_state.add_server_transport in ["stdio", "http", "sse"] else 0
+                    index=["stdio", "streamable_http", "sse"].index(st.session_state.add_server_transport) if st.session_state.add_server_transport in ["stdio", "streamable_http", "sse"] else 0
                 )
                 # Update session state
                 st.session_state.add_server_transport = transport
@@ -270,103 +266,155 @@ if st.session_state.show_mcp_modal:
             transport_value = "stdio"
             if st.session_state.edit_server_data is not None:
                 transport_value = st.session_state.edit_server_data.get('transport', 'stdio')
-            
+
             default_transport_index = 0
-            if transport_value in ["stdio", "http", "sse"]:
-                default_transport_index = ["stdio", "http", "sse"].index(transport_value)
-            
+            if transport_value in ["stdio", "streamable_http", "sse"]:
+                default_transport_index = ["stdio", "streamable_http", "sse"].index(transport_value)
+
             transport = st.selectbox(
-                "Transport Type", 
-                ["stdio", "http", "sse"], 
+                "Transport Type",
+                ["stdio", "streamable_http", "sse"],
                 key="edit_server_transport_selector_modal",
                 index=default_transport_index
             )
         
-        # Form for MCP server
-        with st.form("mcp_server_form"):
-            if st.session_state.show_mcp_modal == "add":
-                name = st.text_input("Server Name")
-                description = st.text_area("Description", placeholder="Enter a description for this MCP server (optional)")
+        # Server configuration fields (outside form for Test Connection access)
+        if st.session_state.show_mcp_modal == "add":
+            name = st.text_input("Server Name")
+            description = st.text_area("Description", placeholder="Enter a description for this MCP server (optional)")
+        else:
+            # Edit mode
+            name_value = ""
+            description_value = ""
+
+            if st.session_state.edit_server_data is not None:
+                name_value = st.session_state.edit_server_data.get('name', '')
+                description_value = st.session_state.edit_server_data.get('description', '') or ""
+
+            name = st.text_input("Server Name", value=name_value)
+            description = st.text_area("Description", value=description_value, placeholder="Enter a description for this MCP server (optional)")
+
+        # Conditional fields based on transport type
+        command = ""
+        args = ""
+        url = ""
+
+        if transport == "stdio":
+            st.subheader("Stdio Transport Configuration")
+            if st.session_state.show_mcp_modal == "add" and uploaded_file is not None:
+                # For uploaded files, prefill the args with the file path
+                command = st.text_input("Command", value="python", disabled=True)
+                if file_path is not None:
+                    args = st.text_input("Arguments", value=f"./{file_path}", disabled=True)
+                else:
+                    args = st.text_input("Arguments", value="", disabled=True)
+                st.caption("Command and arguments are automatically set for uploaded files")
             else:
-                # Edit mode
-                name_value = ""
-                description_value = ""
-                
-                if st.session_state.edit_server_data is not None:
-                    name_value = st.session_state.edit_server_data.get('name', '')
-                    description_value = st.session_state.edit_server_data.get('description', '') or ""
-                
-                name = st.text_input("Server Name", value=name_value)
-                description = st.text_area("Description", value=description_value, placeholder="Enter a description for this MCP server (optional)")
-            
-            # Conditional fields based on transport type
-            command = ""
-            args = ""
-            url = ""
-            
-            if transport == "stdio":
-                st.subheader("Stdio Transport Configuration")
-                if st.session_state.show_mcp_modal == "add" and uploaded_file is not None:
-                    # For uploaded files, prefill the args with the file path
-                    command = st.text_input("Command", value="python", disabled=True)
-                    if file_path is not None:
-                        args = st.text_input("Arguments", value=f"./{file_path}", disabled=True)
-                    else:
-                        args = st.text_input("Arguments", value="", disabled=True)
-                    st.caption("Command and arguments are automatically set for uploaded files")
-                else:
-                    if st.session_state.show_mcp_modal == "edit" and st.session_state.edit_server_data is not None:
-                        command_value = st.session_state.edit_server_data.get('command', '') or ""
-                        command = st.text_input("Command", value=command_value)
-                        args_value = ""
-                        if st.session_state.edit_server_data.get('args'):
-                            args_value = ",".join(st.session_state.edit_server_data['args'])
-                        args = st.text_input("Arguments", value=args_value)
-                    else:
-                        command = st.text_input("Command", placeholder="e.g., python")
-                        args = st.text_input("Arguments", placeholder="e.g., server.py,arg1,arg2")
-                    st.caption("Command to execute the server and arguments to pass to it")
-            elif transport in ["http", "sse"]:
-                transport_names = {
-                    "http": "HTTP",
-                    "sse": "Server-Sent Events"
-                }
-                st.subheader(f"{transport_names[transport]} Transport Configuration")
-                # Show only URL field for http and sse transports
                 if st.session_state.show_mcp_modal == "edit" and st.session_state.edit_server_data is not None:
-                    url_value = st.session_state.edit_server_data.get('url', '') or ""
-                    url = st.text_input("Server URL", value=url_value)
-                    args = st.text_input("Arguments", value="")
+                    command_value = st.session_state.edit_server_data.get('command', '') or ""
+                    command = st.text_input("Command", value=command_value)
+                    args_value = ""
+                    if st.session_state.edit_server_data.get('args'):
+                        # For stdio, args should be a list, so join them
+                        if isinstance(st.session_state.edit_server_data['args'], list):
+                            args_value = ",".join(st.session_state.edit_server_data['args'])
+                        else:
+                            args_value = str(st.session_state.edit_server_data['args'])
+                    args = st.text_input("Arguments", value=args_value)
                 else:
-                    url = st.text_input("Server URL", placeholder=f"e.g., http://localhost:8000/mcp")
-                    args = st.text_input("Arguments", value="")
-                st.caption(f"URL where the {transport_names[transport]} server is running")
-            
-            # Enabled checkbox
-            enabled_default = True
+                    command = st.text_input("Command", placeholder="e.g., python")
+                    args = st.text_input("Arguments", placeholder="e.g., server.py,arg1,arg2")
+                st.caption("Command to execute the server and arguments to pass to it (comma-separated)")
+        elif transport in ["streamable_http", "sse"]:
+            transport_names = {
+                "streamable_http": "Streamable HTTP",
+                "sse": "Server-Sent Events"
+            }
+            st.subheader(f"{transport_names[transport]} Transport Configuration")
+            # Show URL field and JSON args for streamable_http and sse transports
             if st.session_state.show_mcp_modal == "edit" and st.session_state.edit_server_data is not None:
-                enabled_default = bool(st.session_state.edit_server_data.get('enabled', True))
-            enabled = st.checkbox("Enabled", value=enabled_default)
-            
+                url_value = st.session_state.edit_server_data.get('url', '') or ""
+                url = st.text_input("Server URL", value=url_value)
+                args_value = ""
+                if st.session_state.edit_server_data.get('args'):
+                    # For streamable_http/sse, args should be JSON, so format as JSON string
+                    if isinstance(st.session_state.edit_server_data['args'], dict):
+                        args_value = json.dumps(st.session_state.edit_server_data['args'], indent=2)
+                    else:
+                        args_value = str(st.session_state.edit_server_data['args'])
+                args = st.text_area("Arguments (JSON)", value=args_value, height=100)
+            else:
+                url = st.text_input("Server URL", placeholder=f"e.g., http://localhost:8000/mcp")
+                args = st.text_area("Arguments (JSON)", value="", height=100, placeholder='{"key": "value"}')
+            st.caption(f"URL where the {transport_names[transport]} server is running. Arguments should be valid JSON.")
+
+        # Enabled checkbox
+        enabled_default = True
+        if st.session_state.show_mcp_modal == "edit" and st.session_state.edit_server_data is not None:
+            enabled_default = bool(st.session_state.edit_server_data.get('enabled', True))
+        enabled = st.checkbox("Enabled", value=enabled_default)
+
+        # Test Connection button (outside form, can access field values)
+        if st.button("🔗 Test Connection", key="test_connection_button"):
+            # Build temporary server config from form values
+            temp_config = {}
+            temp_name = name if name else "test_server"
+
+            temp_config[temp_name] = {
+                "transport": transport,
+            }
+
+            # Add transport-specific fields
+            if transport == "stdio":
+                if command:
+                    temp_config[temp_name]["command"] = command
+                if args:
+                    temp_args = args.split(",") if args else []
+                    if temp_args:
+                        temp_config[temp_name]["args"] = temp_args
+            elif transport in ["streamable_http", "sse"]:
+                if url:
+                    temp_config[temp_name]["url"] = url
+                if args:
+                    try:
+                        temp_args = json.loads(args) if args else None
+                    except json.JSONDecodeError:
+                        temp_args = None
+                    if temp_args:
+                        temp_config[temp_name]["args"] = temp_args
+
+            # Test the connection to this specific server
+            try:
+                test_manager = MCPManager(temp_config)
+                connection_status = asyncio.run(test_manager.test_server_connection(temp_name))
+                if connection_status == "Active":
+                    st.success("✅ Connection successful! Server is reachable and tools are available.")
+                else:
+                    st.error(f"❌ Connection failed: {connection_status}")
+            except Exception as e:
+                st.error(f"❌ Connection test failed: {str(e)}")
+
+        # Form for submit buttons only
+        with st.form("mcp_server_form"):
             # Form buttons
             col1, col2 = st.columns(2)
             with col1:
                 submitted = st.form_submit_button("Save" if st.session_state.show_mcp_modal == "edit" else "Add Server")
             with col2:
                 cancelled = st.form_submit_button("Cancel")
-            
+
             if submitted:
                 if st.session_state.show_mcp_modal == "add":
                     # Initialize args_list
                     args_list = []
-                    
+
                     # Handle uploaded file if present
                     if uploaded_file is not None and file_path is not None:
                         # Save the uploaded file
                         try:
                             with open(file_path, "wb") as f:
                                 f.write(uploaded_file.getbuffer())
-                            
+
                             # Set command and args for uploaded file
                             command = "python"
                             args_list = [f"./{file_path}"]
@@ -374,14 +422,22 @@ if st.session_state.show_mcp_modal:
                             st.error(f"Failed to save uploaded file: {str(e)}")
                             args_list = []
                     else:
-                        args_list = args.split(",") if args else []
-                    
+                        if transport == "stdio":
+                            args_list = args.split(",") if args else []
+                        elif transport in ["streamable_http", "sse"]:
+                            # For streamable_http/sse, parse JSON args
+                            try:
+                                args_list = json.loads(args) if args else None
+                            except json.JSONDecodeError:
+                                st.error("Invalid JSON in Arguments field. Please provide valid JSON.")
+                                args_list = None
+
                     # Handle optional parameters
                     command_param = command if command else None
                     args_param = args_list if args_list else None
                     url_param = url if url else None
                     description_param = description if description else None
-                    
+
                     if db_manager.add_mcp_server(name, transport, command_param, args_param, url_param, description_param):
                         st.success(f"Server '{name}' added successfully!")
                         # Reset session state
@@ -392,13 +448,21 @@ if st.session_state.show_mcp_modal:
                         st.error(f"Failed to add server '{name}'. It might already exist.")
                 else:
                     # Edit mode
-                    args_list = args.split(",") if args else []
+                    if transport == "stdio":
+                        args_list = args.split(",") if args else []
+                    elif transport in ["streamable_http", "sse"]:
+                        # For streamable_http/sse, parse JSON args
+                        try:
+                            args_list = json.loads(args) if args else None
+                        except json.JSONDecodeError:
+                            st.error("Invalid JSON in Arguments field. Please provide valid JSON.")
+                            args_list = None
                     # Handle optional parameters
                     command_param = command if command else None
                     args_param = args_list if args_list else None
                     url_param = url if url else None
                     description_param = description if description else None
-                    
+
                     if st.session_state.edit_server_data is not None and db_manager.update_mcp_server(
                         st.session_state.edit_server_data['id'],
                         name=name,
@@ -415,7 +479,7 @@ if st.session_state.show_mcp_modal:
                         st.rerun()  # Refresh to show updated list
                     else:
                         st.error(f"Failed to update server '{name}'.")
-            
+
             if cancelled:
                 st.session_state.show_mcp_modal = False
                 st.session_state.edit_server_data = None

@@ -6,42 +6,43 @@ def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:
     """Fetch MCP servers from database and format them as server_config."""
     db_manager = DatabaseManager()
     servers = db_manager.get_mcp_servers()
-    
+
     server_config = {}
     for server in servers:
         # Skip invalid configurations
         if server['transport'] == 'stdio' and not server['command']:
             print(f"Warning: Skipping server '{server['name']}' due to missing command for stdio transport")
             continue
-            
+
         if server['transport'] in ['http', 'sse'] and not server['url']:
             print(f"Warning: Skipping server '{server['name']}' due to missing URL for {server['transport']} transport")
             continue
-        
+
+        # Map transport names to langchain-mcp-adapters expected names
+        transport = server['transport']
+        if transport == 'http':
+            transport = 'streamable_http'
+
         server_config[server['name']] = {
-            "transport": server['transport'],
+            "transport": transport,
         }
-        
+
         # Add transport-specific fields
         if server['transport'] == 'stdio':
             if server['command']:
                 server_config[server['name']]["command"] = server['command']
             if server['args']:
-                # Args from database are already a list, so we don't need to wrap them
+                # Args from database are already parsed as list or dict
                 server_config[server['name']]["args"] = server['args']
                 print(f"Added stdio server '{server['name']}' with args: {server['args']}")
-        elif server['transport'] in ['http', 'sse']:
+        elif server['transport'] in ['streamable_http', 'sse']:
             if server['url']:
                 server_config[server['name']]["url"] = server['url']
             if server['args']:
-                # Args from database are stored as JSON string, so we need to parse them
-                try:
-                    server_config[server['name']]["args"] = json.loads(server['args'])
-                except (json.JSONDecodeError, TypeError):
-                    # If parsing fails, use as-is
-                    server_config[server['name']]["args"] = server['args']
+                # Args from database are already parsed as dict or list
+                server_config[server['name']]["args"] = server['args']
                 print(f"Added {server['transport']} server '{server['name']}' with args: {server_config[server['name']]['args']}")
-    
+
     print(f"Final server config: {server_config}")
     return server_config
 

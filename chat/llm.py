@@ -1,3 +1,4 @@
+from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from langchain.messages import HumanMessage, AIMessage
 from dotenv import load_dotenv
@@ -82,3 +83,13 @@ class LLMWrapper:
         self.add_to_history("assistant", response.content)
         
         return response.content
+
+async def create_mcp_agent(model="openai/gpt-oss-20b:free"):
+    """Create an agent that can interact with multiple MCP servers."""
+    from mcp_client.manager import MCPManager
+    from mcp_servers import server_config
+    client = MCPManager(server_configs=server_config)
+    tools = await client.get_tools()
+    chat_model = ChatOpenAI(model=model, api_key=SecretStr(os.getenv("OPENAI_API_KEY") or ""), base_url=os.getenv("OPENAI_API_BASE"))
+    agent = create_agent(model=chat_model, tools=tools, debug=True, )
+    return agent
