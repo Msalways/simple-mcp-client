@@ -27,21 +27,28 @@ def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:
             "transport": transport,
         }
 
+        # Always ensure args is a list, standardize for all transports
+        args_list = server['args'] if server['args'] and isinstance(server['args'], list) else []
+        env_dict = server['env'] if server['env'] and isinstance(server['env'], dict) else {}
+
         # Add transport-specific fields
         if server['transport'] == 'stdio':
             if server['command']:
                 server_config[server['name']]["command"] = server['command']
-            if server['args']:
-                # Args from database are already parsed as list or dict
-                server_config[server['name']]["args"] = server['args']
-                print(f"Added stdio server '{server['name']}' with args: {server['args']}")
-        elif server['transport'] in ['streamable_http', 'sse']:
+            if args_list:
+                server_config[server['name']]["args"] = args_list
+                print(f"Added stdio server '{server['name']}' with args: {args_list}")
+            if env_dict:
+                server_config[server['name']]["env"] = env_dict
+        elif server['transport'] in ['http', 'sse']:
             if server['url']:
                 server_config[server['name']]["url"] = server['url']
-            if server['args']:
-                # Args from database are already parsed as dict or list
-                server_config[server['name']]["args"] = server['args']
-                print(f"Added {server['transport']} server '{server['name']}' with args: {server_config[server['name']]['args']}")
+            if args_list:
+                # For http/sse, args might be used for additional config if supported
+                server_config[server['name']]["args"] = args_list
+            if env_dict:
+                # For http/sse, env might be used for headers or auth
+                server_config[server['name']]["env"] = env_dict
 
     print(f"Final server config: {server_config}")
     return server_config
@@ -54,9 +61,4 @@ server_config = {
         # Absolute path to your math_server.py file
         "args": ["mcp_servers/math.py"],
     },
-    # "weather": {
-    #     "transport": "streamable_http",  # HTTP-based remote server
-    #     # Ensure you start your weather server on port 8000
-    #     "url": "http://localhost:8000/mcp",
-    # }
 }

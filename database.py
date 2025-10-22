@@ -12,7 +12,7 @@ class DatabaseManager:
         """Initialize the database with required tables."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         # Create MCP servers table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS mcp_servers (
@@ -22,10 +22,18 @@ class DatabaseManager:
                 transport TEXT NOT NULL,
                 command TEXT,
                 args TEXT,
+                env TEXT,
                 url TEXT,
                 enabled BOOLEAN DEFAULT 1
             )
         ''')
+
+        # Add env column if it doesn't exist (for database migration)
+        try:
+            cursor.execute("ALTER TABLE mcp_servers ADD COLUMN env TEXT")
+        except sqlite3.OperationalError:
+            # Column already exists
+            pass
         
         # Create LLM configurations table
         cursor.execute('''
@@ -44,20 +52,21 @@ class DatabaseManager:
         conn.close()
     
     def add_mcp_server(self, name: str, transport: str, command: Optional[str] = None,
-                      args: Optional[Any] = None, url: Optional[str] = None,
-                      description: Optional[str] = None) -> bool:
+                      args: Optional[Any] = None, env: Optional[Dict[str, str]] = None,
+                      url: Optional[str] = None, description: Optional[str] = None) -> bool:
         """Add a new MCP server configuration."""
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
 
-            # Convert args to JSON string for storage
+            # Convert args and env to JSON string for storage
             args_str = json.dumps(args) if args is not None else None
+            env_str = json.dumps(env) if env is not None else None
 
             cursor.execute('''
-                INSERT INTO mcp_servers (name, description, transport, command, args, url)
-                VALUES (?, ?, ?, ?, ?, ?)
-            ''', (name, description, transport, command, args_str, url))
+                INSERT INTO mcp_servers (name, description, transport, command, args, env, url)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (name, description, transport, command, args_str, env_str, url))
 
             conn.commit()
             conn.close()
@@ -84,13 +93,19 @@ class DatabaseManager:
         servers = []
         for row in rows:
             server = dict(zip(columns, row))
-            # Convert args JSON string back to original format
+            # Convert args and env JSON strings back to original format
             if server['args']:
                 try:
                     server['args'] = json.loads(server['args'])
                 except (json.JSONDecodeError, TypeError):
                     # If parsing fails, keep as string
                     pass
+            if server['env']:
+                try:
+                    server['env'] = json.loads(server['env'])
+                except (json.JSONDecodeError, TypeError):
+                    # If parsing fails, keep as dict with error
+                    server['env'] = {}
             servers.append(server)
 
         conn.close()
@@ -106,10 +121,10 @@ class DatabaseManager:
             fields = []
             values = []
             for key, value in kwargs.items():
-                if key in ['name', 'description', 'transport', 'command', 'args', 'url', 'enabled']:
+                if key in ['name', 'description', 'transport', 'command', 'args', 'env', 'url', 'enabled']:
                     fields.append(f"{key} = ?")
-                    # Convert args to JSON string for storage
-                    if key == 'args':
+                    # Convert args and env to JSON string for storage
+                    if key in ['args', 'env']:
                         value = json.dumps(value) if value is not None else None
                     values.append(value)
 

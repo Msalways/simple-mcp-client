@@ -28,7 +28,7 @@ class ToolValidationCallback(AsyncCallbackHandler):
         self.user_prompt_func = user_prompt_func
         self.tool_call_failures = {}
 
-    async def on_tool_error(self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any) -> Any:
+    async def on_tool_error(self, error: BaseException, **kwargs: Any) -> Any:
         """Handle tool execution errors, particularly validation errors."""
         error_str = str(error)
 
@@ -48,6 +48,13 @@ class ToolValidationCallback(AsyncCallbackHandler):
         # Return the error to continue normal flow - it will be handled upstream
         return error
 
+    async def on_tool_end(self, output: Any, *, name: str, run_id, **kwargs: Any) -> Any:
+        """Handle successful tool execution."""
+        # Clear any previous failures for this tool if it succeeded
+        if run_id in self.tool_call_failures:
+            del self.tool_call_failures[run_id]
+        return output
+
     def _extract_missing_fields(self, error_msg: str) -> List[str]:
         """Extract missing field names from validation error messages."""
         missing_fields = []
@@ -57,6 +64,7 @@ class ToolValidationCallback(AsyncCallbackHandler):
             r"Field required\s*\n([^']+)'",  # Pydantic style: Field required\nlocation
             r"missing.*?'([^']+)'",  # missing 'location'
             r"'([^']+)'\s*\n\s*Field required",  # 'location'\nField required
+            r"Field required.*?field '([^']+)'",  # Field required for field 'location'
         ]
 
         for pattern in patterns:

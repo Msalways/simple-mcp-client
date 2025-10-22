@@ -1,0 +1,1211 @@
+[
+    {
+        "label": "create_agent",
+        "importPath": "langchain.agents",
+        "description": "langchain.agents",
+        "isExtraImport": true,
+        "detail": "langchain.agents",
+        "documentation": {}
+    },
+    {
+        "label": "create_agent",
+        "importPath": "langchain.agents",
+        "description": "langchain.agents",
+        "isExtraImport": true,
+        "detail": "langchain.agents",
+        "documentation": {}
+    },
+    {
+        "label": "ChatOpenAI",
+        "importPath": "langchain_openai",
+        "description": "langchain_openai",
+        "isExtraImport": true,
+        "detail": "langchain_openai",
+        "documentation": {}
+    },
+    {
+        "label": "ChatOpenAI",
+        "importPath": "langchain_openai",
+        "description": "langchain_openai",
+        "isExtraImport": true,
+        "detail": "langchain_openai",
+        "documentation": {}
+    },
+    {
+        "label": "MCPManager",
+        "importPath": "mcp_client.manager",
+        "description": "mcp_client.manager",
+        "isExtraImport": true,
+        "detail": "mcp_client.manager",
+        "documentation": {}
+    },
+    {
+        "label": "MCPManager",
+        "importPath": "mcp_client.manager",
+        "description": "mcp_client.manager",
+        "isExtraImport": true,
+        "detail": "mcp_client.manager",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_mcp_servers_as_config",
+        "importPath": "mcp_servers",
+        "description": "mcp_servers",
+        "isExtraImport": true,
+        "detail": "mcp_servers",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_mcp_servers_as_config",
+        "importPath": "mcp_servers",
+        "description": "mcp_servers",
+        "isExtraImport": true,
+        "detail": "mcp_servers",
+        "documentation": {}
+    },
+    {
+        "label": "ToolValidationCallback",
+        "importPath": "chat.callbacks",
+        "description": "chat.callbacks",
+        "isExtraImport": true,
+        "detail": "chat.callbacks",
+        "documentation": {}
+    },
+    {
+        "label": "SecretStr",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "SecretStr",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Union",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "AsyncCallbackHandler",
+        "importPath": "langchain_core.callbacks",
+        "description": "langchain_core.callbacks",
+        "isExtraImport": true,
+        "detail": "langchain_core.callbacks",
+        "documentation": {}
+    },
+    {
+        "label": "BaseMessage",
+        "importPath": "langchain_core.messages",
+        "description": "langchain_core.messages",
+        "isExtraImport": true,
+        "detail": "langchain_core.messages",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "HumanMessage",
+        "importPath": "langchain.messages",
+        "description": "langchain.messages",
+        "isExtraImport": true,
+        "detail": "langchain.messages",
+        "documentation": {}
+    },
+    {
+        "label": "AIMessage",
+        "importPath": "langchain.messages",
+        "description": "langchain.messages",
+        "isExtraImport": true,
+        "detail": "langchain.messages",
+        "documentation": {}
+    },
+    {
+        "label": "DatabaseManager",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "DatabaseManager",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "DatabaseManager",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "DatabaseManager",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "MultiServerMCPClient",
+        "importPath": "langchain_mcp_adapters.client",
+        "description": "langchain_mcp_adapters.client",
+        "isExtraImport": true,
+        "detail": "langchain_mcp_adapters.client",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "MIMEMultipart",
+        "importPath": "email.mime.multipart",
+        "description": "email.mime.multipart",
+        "isExtraImport": true,
+        "detail": "email.mime.multipart",
+        "documentation": {}
+    },
+    {
+        "label": "MIMEText",
+        "importPath": "email.mime.text",
+        "description": "email.mime.text",
+        "isExtraImport": true,
+        "detail": "email.mime.text",
+        "documentation": {}
+    },
+    {
+        "label": "SMTPServerConfig",
+        "importPath": "models",
+        "description": "models",
+        "isExtraImport": true,
+        "detail": "models",
+        "documentation": {}
+    },
+    {
+        "label": "SMTPMessageInput",
+        "importPath": "models",
+        "description": "models",
+        "isExtraImport": true,
+        "detail": "models",
+        "documentation": {}
+    },
+    {
+        "label": "smtplib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "smtplib",
+        "description": "smtplib",
+        "detail": "smtplib",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "mcp.server",
+        "description": "mcp.server",
+        "isExtraImport": true,
+        "detail": "mcp.server",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "mcp.server.fastmcp",
+        "description": "mcp.server.fastmcp",
+        "isExtraImport": true,
+        "detail": "mcp.server.fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "mcp.server.fastmcp",
+        "description": "mcp.server.fastmcp",
+        "isExtraImport": true,
+        "detail": "mcp.server.fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "mcp.server.fastmcp",
+        "description": "mcp.server.fastmcp",
+        "isExtraImport": true,
+        "detail": "mcp.server.fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "mcp.server.fastmcp",
+        "description": "mcp.server.fastmcp",
+        "isExtraImport": true,
+        "detail": "mcp.server.fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "mcp.server.fastmcp",
+        "description": "mcp.server.fastmcp",
+        "isExtraImport": true,
+        "detail": "mcp.server.fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "argparse",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "argparse",
+        "description": "argparse",
+        "detail": "argparse",
+        "documentation": {}
+    },
+    {
+        "label": "glob",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "glob",
+        "description": "glob",
+        "detail": "glob",
+        "documentation": {}
+    },
+    {
+        "label": "shutil",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shutil",
+        "description": "shutil",
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "sysconfig",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sysconfig",
+        "description": "sysconfig",
+        "detail": "sysconfig",
+        "documentation": {}
+    },
+    {
+        "label": "tempfile",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tempfile",
+        "description": "tempfile",
+        "detail": "tempfile",
+        "documentation": {}
+    },
+    {
+        "label": "winreg",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "winreg",
+        "description": "winreg",
+        "detail": "winreg",
+        "documentation": {}
+    },
+    {
+        "label": "site",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "site",
+        "description": "site",
+        "detail": "site",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "streamlit",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "streamlit",
+        "description": "streamlit",
+        "detail": "streamlit",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "MCPAgent",
+        "importPath": "chat.agent",
+        "description": "chat.agent",
+        "isExtraImport": true,
+        "detail": "chat.agent",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "MCPAgent",
+        "kind": 6,
+        "importPath": "chat.agent",
+        "description": "chat.agent",
+        "peekOfCode": "class MCPAgent:\n    \"\"\"Agent that can interact with multiple MCP servers using LangChain.\"\"\"\n    def __init__(self):\n        print(\"MCPAgent: Initializing with server config...\")\n        server_config = fetch_mcp_servers_as_config()\n        print(f\"MCPAgent: Server config: {server_config}\")\n        self.client = MCPManager(server_config)\n        self.agent = None\n        self.tools = []\n    async def initialize_agent(self, llm_config: Dict[str, Any]):",
+        "detail": "chat.agent",
+        "documentation": {}
+    },
+    {
+        "label": "StreamPrinter",
+        "kind": 6,
+        "importPath": "chat.callbacks",
+        "description": "chat.callbacks",
+        "peekOfCode": "class StreamPrinter(AsyncCallbackHandler):\n    \"\"\"Callback handler that prints to stdout.\"\"\"\n    async def on_llm_new_token(self, token: str, **kwargs) -> None:\n        print(token, end=\"\", flush=True)\n    async def on_llm_end(self, response, **kwargs) -> None:\n        print(\"\\n --Stream end-- \\n\")\nclass ToolValidationCallback(AsyncCallbackHandler):\n    \"\"\"Callback handler that validates tool calls and prompts for missing parameters.\"\"\"\n    def __init__(self, user_prompt_func=None):\n        \"\"\"",
+        "detail": "chat.callbacks",
+        "documentation": {}
+    },
+    {
+        "label": "ToolValidationCallback",
+        "kind": 6,
+        "importPath": "chat.callbacks",
+        "description": "chat.callbacks",
+        "peekOfCode": "class ToolValidationCallback(AsyncCallbackHandler):\n    \"\"\"Callback handler that validates tool calls and prompts for missing parameters.\"\"\"\n    def __init__(self, user_prompt_func=None):\n        \"\"\"\n        Initialize with a function to prompt the user for missing parameters.\n        Args:\n            user_prompt_func: Async function that takes a list of missing params and returns a dict of values.\n                            Signature: async def prompt_func(missing_params: List[str]) -> Dict[str, Any]\n        \"\"\"\n        super().__init__()",
+        "detail": "chat.callbacks",
+        "documentation": {}
+    },
+    {
+        "label": "LLMWrapper",
+        "kind": 6,
+        "importPath": "chat.llm",
+        "description": "chat.llm",
+        "peekOfCode": "class LLMWrapper:\n    \"\"\"LLM wrapper that maintains chat history and integrates with database configurations.\"\"\"\n    def __init__(self, db_manager: Optional[DatabaseManager] = None):\n        self.db_manager = db_manager or DatabaseManager()\n        self.chat_history = []  # Local array to maintain chat history\n    def get_llm_config(self, config_name: str):\n        \"\"\"Retrieve LLM configuration by name from database.\"\"\"\n        configs = self.db_manager.get_llm_configs()\n        for config in configs:\n            if config['name'] == config_name:",
+        "detail": "chat.llm",
+        "documentation": {}
+    },
+    {
+        "label": "MCPManager",
+        "kind": 6,
+        "importPath": "mcp_client.manager",
+        "description": "mcp_client.manager",
+        "peekOfCode": "class MCPManager:\n    \"\"\"\n    High-level wrapper around LangChain's MultiServerMCPClient.\n    Dynamically manages multiple MCP servers and exposes tools, resources, and prompts.\n    \"\"\"\n    def __init__(self, server_configs: dict = None):\n        if server_configs is None:\n            self.server_configs = fetch_mcp_servers_as_config()\n        else:\n            self.server_configs = server_configs",
+        "detail": "mcp_client.manager",
+        "documentation": {}
+    },
+    {
+        "label": "send_email",
+        "kind": 2,
+        "importPath": "mcp_servers.smtp.main",
+        "description": "mcp_servers.smtp.main",
+        "peekOfCode": "def send_email(input_data: SMTPMessageInput) -> str:\n    \"\"\"\n    Send an email using SMTP server configuration.\n    Args:\n        input_data: The email details to send\n    \"\"\"\n    \"\"\" Send an email using the configured SMTP server.\"\"\"\n    try:\n        print(config)\n        msg = MIMEMultipart()",
+        "detail": "mcp_servers.smtp.main",
+        "documentation": {}
+    },
+    {
+        "label": "mcp",
+        "kind": 5,
+        "importPath": "mcp_servers.smtp.main",
+        "description": "mcp_servers.smtp.main",
+        "peekOfCode": "mcp = FastMCP(\"SMTP Server\", instructions=\"\"\"\nThis MCP server allows you to send emails using an SMTP server configuration.\n              \"\"\")\nconfig = {\n    \"host\": os.getenv(\"SMTP_HOST\"),\n    \"port\": int(os.getenv(\"SMTP_PORT\", 465)),\n    \"username\": os.getenv(\"SMTP_USERNAME\"),\n    \"password\": os.getenv(\"SMTP_PASSWORD\"),\n}\n@mcp.tool()",
+        "detail": "mcp_servers.smtp.main",
+        "documentation": {}
+    },
+    {
+        "label": "config",
+        "kind": 5,
+        "importPath": "mcp_servers.smtp.main",
+        "description": "mcp_servers.smtp.main",
+        "peekOfCode": "config = {\n    \"host\": os.getenv(\"SMTP_HOST\"),\n    \"port\": int(os.getenv(\"SMTP_PORT\", 465)),\n    \"username\": os.getenv(\"SMTP_USERNAME\"),\n    \"password\": os.getenv(\"SMTP_PASSWORD\"),\n}\n@mcp.tool()\ndef send_email(input_data: SMTPMessageInput) -> str:\n    \"\"\"\n    Send an email using SMTP server configuration.",
+        "detail": "mcp_servers.smtp.main",
+        "documentation": {}
+    },
+    {
+        "label": "SMTPServerConfig",
+        "kind": 6,
+        "importPath": "mcp_servers.smtp.models",
+        "description": "mcp_servers.smtp.models",
+        "peekOfCode": "class SMTPServerConfig(BaseModel):\n    \"\"\"\n    Model for SMTP server configuration.\n    \"\"\"\n    host: str = Field(..., description=\"The hostname or IP address of the SMTP server.\")\n    port: int = Field(..., description=\"The port number of the SMTP server.\")\n    username: str = Field(..., description=\"The username for authenticating with the SMTP server.\")\n    password: str = Field(..., description=\"The password for authenticating with the SMTP server.\")\nclass SMTPMessageInput(BaseModel):\n    \"\"\"",
+        "detail": "mcp_servers.smtp.models",
+        "documentation": {}
+    },
+    {
+        "label": "SMTPMessageInput",
+        "kind": 6,
+        "importPath": "mcp_servers.smtp.models",
+        "description": "mcp_servers.smtp.models",
+        "peekOfCode": "class SMTPMessageInput(BaseModel):\n    \"\"\"\n    Model for input data to send via SMTP.\n    \"\"\"\n    to: list[str] = Field(..., description=\"Recipient email address.\")\n    subject: str = Field(..., description=\"Subject of the email.\")\n    body: str = Field(..., description=\"Body content of the email.\")",
+        "detail": "mcp_servers.smtp.models",
+        "documentation": {}
+    },
+    {
+        "label": "subtract",
+        "kind": 2,
+        "importPath": "mcp_servers.calculator",
+        "description": "mcp_servers.calculator",
+        "peekOfCode": "def subtract(x: float, y: float) -> float:\n    \"\"\"Subtract y from x.\"\"\"\n    return x - y\n@mcp.tool(\n    description=\"Multiply two numbers.\",\n    structured_output=True,\n    title=\"Multiplication Tool\",\n)\ndef multiply(x: float, y: float) -> float:\n    \"\"\"Multiply two numbers.\"\"\"",
+        "detail": "mcp_servers.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "multiply",
+        "kind": 2,
+        "importPath": "mcp_servers.calculator",
+        "description": "mcp_servers.calculator",
+        "peekOfCode": "def multiply(x: float, y: float) -> float:\n    \"\"\"Multiply two numbers.\"\"\"\n    return x * y\n@mcp.tool(\n    description=\"Divide two numbers.\",\n    structured_output=True,\n    title=\"Division Tool\",\n)\ndef divide(x: float, y: float) -> float:\n    \"\"\"Divide x by y.\"\"\"",
+        "detail": "mcp_servers.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "divide",
+        "kind": 2,
+        "importPath": "mcp_servers.calculator",
+        "description": "mcp_servers.calculator",
+        "peekOfCode": "def divide(x: float, y: float) -> float:\n    \"\"\"Divide x by y.\"\"\"\n    if y == 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return x / y\n@mcp.tool(\n    description=\"Calculate the power of a number.\",\n    structured_output=True,\n    title=\"Power Tool\",\n)",
+        "detail": "mcp_servers.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "power",
+        "kind": 2,
+        "importPath": "mcp_servers.calculator",
+        "description": "mcp_servers.calculator",
+        "peekOfCode": "def power(base: float, exponent: float) -> float:\n    \"\"\"Raise base to the power of exponent.\"\"\"\n    return base ** exponent\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")",
+        "detail": "mcp_servers.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "mcp",
+        "kind": 5,
+        "importPath": "mcp_servers.calculator",
+        "description": "mcp_servers.calculator",
+        "peekOfCode": "mcp = FastMCP(\"Calculator\")\n@mcp.tool(\n    description=\"Subtract two numbers.\",\n    structured_output=True,\n    title=\"Subtraction Tool\",\n)\ndef subtract(x: float, y: float) -> float:\n    \"\"\"Subtract y from x.\"\"\"\n    return x - y\n@mcp.tool(",
+        "detail": "mcp_servers.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "format_json",
+        "kind": 2,
+        "importPath": "mcp_servers.data_converter",
+        "description": "mcp_servers.data_converter",
+        "peekOfCode": "def format_json(json_string: str) -> str:\n    \"\"\"Format a JSON string with indentation.\"\"\"\n    try:\n        parsed = json.loads(json_string)\n        return json.dumps(parsed, indent=2)\n    except json.JSONDecodeError as e:\n        return f\"Invalid JSON: {str(e)}\"\n@mcp.tool(\n    description=\"Convert temperature between Celsius and Fahrenheit.\",\n    structured_output=True,",
+        "detail": "mcp_servers.data_converter",
+        "documentation": {}
+    },
+    {
+        "label": "convert_temperature",
+        "kind": 2,
+        "importPath": "mcp_servers.data_converter",
+        "description": "mcp_servers.data_converter",
+        "peekOfCode": "def convert_temperature(value: float, from_unit: str, to_unit: str) -> float:\n    \"\"\"Convert temperature between Celsius and Fahrenheit.\"\"\"\n    if from_unit.lower() == \"celsius\" and to_unit.lower() == \"fahrenheit\":\n        return (value * 9/5) + 32\n    elif from_unit.lower() == \"fahrenheit\" and to_unit.lower() == \"celsius\":\n        return (value - 32) * 5/9\n    else:\n        return value\n@mcp.tool(\n    description=\"Convert a list of items to a comma-separated string.\",",
+        "detail": "mcp_servers.data_converter",
+        "documentation": {}
+    },
+    {
+        "label": "list_to_string",
+        "kind": 2,
+        "importPath": "mcp_servers.data_converter",
+        "description": "mcp_servers.data_converter",
+        "peekOfCode": "def list_to_string(items: list) -> str:\n    \"\"\"Convert a list of items to a comma-separated string.\"\"\"\n    return \", \".join(str(item) for item in items)\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")",
+        "detail": "mcp_servers.data_converter",
+        "documentation": {}
+    },
+    {
+        "label": "mcp",
+        "kind": 5,
+        "importPath": "mcp_servers.data_converter",
+        "description": "mcp_servers.data_converter",
+        "peekOfCode": "mcp = FastMCP(\"Data Converter\")\n@mcp.tool(\n    description=\"Convert a JSON string to a formatted string.\",\n    structured_output=True,\n    title=\"JSON Formatter Tool\",\n)\ndef format_json(json_string: str) -> str:\n    \"\"\"Format a JSON string with indentation.\"\"\"\n    try:\n        parsed = json.loads(json_string)",
+        "detail": "mcp_servers.data_converter",
+        "documentation": {}
+    },
+    {
+        "label": "add",
+        "kind": 2,
+        "importPath": "mcp_servers.math",
+        "description": "mcp_servers.math",
+        "peekOfCode": "def add(x: int, y: int) -> int:\n    \"\"\"Add two numbers.\"\"\"\n    return x + y\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")",
+        "detail": "mcp_servers.math",
+        "documentation": {}
+    },
+    {
+        "label": "mcp",
+        "kind": 5,
+        "importPath": "mcp_servers.math",
+        "description": "mcp_servers.math",
+        "peekOfCode": "mcp = FastMCP(\"Math\")\n@mcp.tool(\n    description=\"Add two numbers together and return the result.\",\n    structured_output=True,\n    title=\"Addition Tool\",\n)\ndef add(x: int, y: int) -> int:\n    \"\"\"Add two numbers.\"\"\"\n    return x + y\nif __name__ == \"__main__\":",
+        "detail": "mcp_servers.math",
+        "documentation": {}
+    },
+    {
+        "label": "reverse_string",
+        "kind": 2,
+        "importPath": "mcp_servers.string_utils",
+        "description": "mcp_servers.string_utils",
+        "peekOfCode": "def reverse_string(text: str) -> str:\n    \"\"\"Reverse the input string.\"\"\"\n    return text[::-1]\n@mcp.tool(\n    description=\"Convert a string to uppercase.\",\n    structured_output=True,\n    title=\"Uppercase Converter Tool\",\n)\ndef to_uppercase(text: str) -> str:\n    \"\"\"Convert string to uppercase.\"\"\"",
+        "detail": "mcp_servers.string_utils",
+        "documentation": {}
+    },
+    {
+        "label": "to_uppercase",
+        "kind": 2,
+        "importPath": "mcp_servers.string_utils",
+        "description": "mcp_servers.string_utils",
+        "peekOfCode": "def to_uppercase(text: str) -> str:\n    \"\"\"Convert string to uppercase.\"\"\"\n    return text.upper()\n@mcp.tool(\n    description=\"Count the number of characters in a string.\",\n    structured_output=True,\n    title=\"Character Counter Tool\",\n)\ndef count_characters(text: str) -> int:\n    \"\"\"Count the number of characters in a string.\"\"\"",
+        "detail": "mcp_servers.string_utils",
+        "documentation": {}
+    },
+    {
+        "label": "count_characters",
+        "kind": 2,
+        "importPath": "mcp_servers.string_utils",
+        "description": "mcp_servers.string_utils",
+        "peekOfCode": "def count_characters(text: str) -> int:\n    \"\"\"Count the number of characters in a string.\"\"\"\n    return len(text)\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")",
+        "detail": "mcp_servers.string_utils",
+        "documentation": {}
+    },
+    {
+        "label": "mcp",
+        "kind": 5,
+        "importPath": "mcp_servers.string_utils",
+        "description": "mcp_servers.string_utils",
+        "peekOfCode": "mcp = FastMCP(\"String Utilities\")\n@mcp.tool(\n    description=\"Reverse a string.\",\n    structured_output=True,\n    title=\"String Reversal Tool\",\n)\ndef reverse_string(text: str) -> str:\n    \"\"\"Reverse the input string.\"\"\"\n    return text[::-1]\n@mcp.tool(",
+        "detail": "mcp_servers.string_utils",
+        "documentation": {}
+    },
+    {
+        "label": "count_words",
+        "kind": 2,
+        "importPath": "mcp_servers.text_analyzer",
+        "description": "mcp_servers.text_analyzer",
+        "peekOfCode": "def count_words(text: str) -> int:\n    \"\"\"Count the number of words in a text.\"\"\"\n    return len(text.split())\n@mcp.tool(\n    description=\"Count the number of sentences in a text.\",\n    structured_output=True,\n    title=\"Sentence Counter Tool\",\n)\ndef count_sentences(text: str) -> int:\n    \"\"\"Count the number of sentences in a text.\"\"\"",
+        "detail": "mcp_servers.text_analyzer",
+        "documentation": {}
+    },
+    {
+        "label": "count_sentences",
+        "kind": 2,
+        "importPath": "mcp_servers.text_analyzer",
+        "description": "mcp_servers.text_analyzer",
+        "peekOfCode": "def count_sentences(text: str) -> int:\n    \"\"\"Count the number of sentences in a text.\"\"\"\n    import re\n    sentences = re.split(r'[.!?]+', text)\n    # Filter out empty strings\n    sentences = [s for s in sentences if s.strip()]\n    return len(sentences)\n@mcp.tool(\n    description=\"Find the most common words in a text.\",\n    structured_output=True,",
+        "detail": "mcp_servers.text_analyzer",
+        "documentation": {}
+    },
+    {
+        "label": "common_words",
+        "kind": 2,
+        "importPath": "mcp_servers.text_analyzer",
+        "description": "mcp_servers.text_analyzer",
+        "peekOfCode": "def common_words(text: str, top_n: int = 5) -> list:\n    \"\"\"Find the most common words in a text.\"\"\"\n    import re\n    from collections import Counter\n    # Convert to lowercase and split into words\n    words = re.findall(r'\\b\\w+\\b', text.lower())\n    # Count words and get top N\n    word_counts = Counter(words)\n    return word_counts.most_common(top_n)\n@mcp.tool(",
+        "detail": "mcp_servers.text_analyzer",
+        "documentation": {}
+    },
+    {
+        "label": "reading_time",
+        "kind": 2,
+        "importPath": "mcp_servers.text_analyzer",
+        "description": "mcp_servers.text_analyzer",
+        "peekOfCode": "def reading_time(text: str, words_per_minute: int = 200) -> float:\n    \"\"\"Calculate the reading time of a text in minutes.\"\"\"\n    word_count = count_words(text)\n    return round(word_count / words_per_minute, 2)\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")",
+        "detail": "mcp_servers.text_analyzer",
+        "documentation": {}
+    },
+    {
+        "label": "mcp",
+        "kind": 5,
+        "importPath": "mcp_servers.text_analyzer",
+        "description": "mcp_servers.text_analyzer",
+        "peekOfCode": "mcp = FastMCP(\"Text Analyzer\")\n@mcp.tool(\n    description=\"Count the number of words in a text.\",\n    structured_output=True,\n    title=\"Word Counter Tool\",\n)\ndef count_words(text: str) -> int:\n    \"\"\"Count the number of words in a text.\"\"\"\n    return len(text.split())\n@mcp.tool(",
+        "detail": "mcp_servers.text_analyzer",
+        "documentation": {}
+    },
+    {
+        "label": "Tee",
+        "kind": 6,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "class Tee:\n    def __init__(self, file):\n        self.f = file\n    def write(self, what):\n        if self.f is not None:\n            try:\n                self.f.write(what.replace(\"\\n\", \"\\r\\n\"))\n            except OSError:\n                pass\n        tee_f.write(what)",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "get_root_hkey",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def get_root_hkey():\n    try:\n        winreg.OpenKey(\n            winreg.HKEY_LOCAL_MACHINE, root_key_name, 0, winreg.KEY_CREATE_SUB_KEY\n        )\n        return winreg.HKEY_LOCAL_MACHINE\n    except OSError:\n        # Either not exist, or no permissions to create subkey means\n        # must be HKCU\n        return winreg.HKEY_CURRENT_USER",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "create_shortcut",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def create_shortcut(\n    path, description, filename, arguments=\"\", workdir=\"\", iconpath=\"\", iconindex=0\n):\n    import pythoncom\n    from win32com.shell import shell\n    ilink = pythoncom.CoCreateInstance(\n        shell.CLSID_ShellLink,\n        None,\n        pythoncom.CLSCTX_INPROC_SERVER,\n        shell.IID_IShellLink,",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "get_special_folder_path",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def get_special_folder_path(path_name):\n    from win32com.shell import shell, shellcon\n    for maybe in \"\"\"\n        CSIDL_COMMON_STARTMENU CSIDL_STARTMENU CSIDL_COMMON_APPDATA\n        CSIDL_LOCAL_APPDATA CSIDL_APPDATA CSIDL_COMMON_DESKTOPDIRECTORY\n        CSIDL_DESKTOPDIRECTORY CSIDL_COMMON_STARTUP CSIDL_STARTUP\n        CSIDL_COMMON_PROGRAMS CSIDL_PROGRAMS CSIDL_PROGRAM_FILES_COMMON\n        CSIDL_PROGRAM_FILES CSIDL_FONTS\"\"\".split():\n        if maybe == path_name:\n            csidl = getattr(shellcon, maybe)",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "CopyTo",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def CopyTo(desc, src, dest):\n    import win32api\n    import win32con\n    while 1:\n        try:\n            win32api.CopyFile(src, dest, 0)\n            return\n        except win32api.error as details:\n            if details.winerror == 5:  # access denied - user not admin.\n                raise",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "LoadSystemModule",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def LoadSystemModule(lib_dir, modname):\n    # See if this is a debug build.\n    import importlib.machinery\n    import importlib.util\n    suffix = \"_d\" if \"_d.pyd\" in importlib.machinery.EXTENSION_SUFFIXES else \"\"\n    filename = \"%s%d%d%s.dll\" % (\n        modname,\n        sys.version_info.major,\n        sys.version_info.minor,\n        suffix,",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "SetPyKeyVal",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def SetPyKeyVal(key_name, value_name, value):\n    root_hkey = get_root_hkey()\n    root_key = winreg.OpenKey(root_hkey, root_key_name)\n    try:\n        my_key = winreg.CreateKey(root_key, key_name)\n        try:\n            winreg.SetValueEx(my_key, value_name, 0, winreg.REG_SZ, value)\n            if verbose:\n                print(f\"-> {root_key_name}\\\\{key_name}[{value_name}]={value!r}\")\n        finally:",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "UnsetPyKeyVal",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def UnsetPyKeyVal(key_name, value_name, delete_key=False):\n    root_hkey = get_root_hkey()\n    root_key = winreg.OpenKey(root_hkey, root_key_name)\n    try:\n        my_key = winreg.OpenKey(root_key, key_name, 0, winreg.KEY_SET_VALUE)\n        try:\n            winreg.DeleteValue(my_key, value_name)\n            if verbose:\n                print(f\"-> DELETE {root_key_name}\\\\{key_name}[{value_name}]\")\n        finally:",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "RegisterCOMObjects",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def RegisterCOMObjects(register=True):\n    import win32com.server.register\n    if register:\n        func = win32com.server.register.RegisterClasses\n    else:\n        func = win32com.server.register.UnregisterClasses\n    flags = {}\n    if not verbose:\n        flags[\"quiet\"] = 1\n    for module, klass_name in com_modules:",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "RegisterHelpFile",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def RegisterHelpFile(register=True, lib_dir=None):\n    if lib_dir is None:\n        lib_dir = sysconfig.get_paths()[\"platlib\"]\n    if register:\n        # Register the .chm help file.\n        chm_file = os.path.join(lib_dir, \"PyWin32.chm\")\n        if os.path.isfile(chm_file):\n            # This isn't recursive, so if 'Help' doesn't exist, we croak\n            SetPyKeyVal(\"Help\", None, None)\n            SetPyKeyVal(\"Help\\\\Pythonwin Reference\", None, chm_file)",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "RegisterPythonwin",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def RegisterPythonwin(register=True, lib_dir=None):\n    \"\"\"Add (or remove) Pythonwin to context menu for python scripts.\n    ??? Should probably also add Edit command for pys files also.\n    Also need to remove these keys on uninstall, but there's no function\n    to add registry entries to uninstall log ???\n    \"\"\"\n    import os\n    if lib_dir is None:\n        lib_dir = sysconfig.get_paths()[\"platlib\"]\n    classes_root = get_root_hkey()",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "get_shortcuts_folder",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def get_shortcuts_folder():\n    if get_root_hkey() == winreg.HKEY_LOCAL_MACHINE:\n        try:\n            fldr = get_special_folder_path(\"CSIDL_COMMON_PROGRAMS\")\n        except OSError:\n            # No CSIDL_COMMON_PROGRAMS on this platform\n            fldr = get_special_folder_path(\"CSIDL_PROGRAMS\")\n    else:\n        # non-admin install - always goes in this user's start menu.\n        fldr = get_special_folder_path(\"CSIDL_PROGRAMS\")",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "get_system_dir",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def get_system_dir():\n    import win32api  # we assume this exists.\n    try:\n        import pythoncom\n        import win32process\n        from win32com.shell import shell, shellcon\n        try:\n            if win32process.IsWow64Process():\n                return shell.SHGetSpecialFolderPath(0, shellcon.CSIDL_SYSTEMX86)\n            return shell.SHGetSpecialFolderPath(0, shellcon.CSIDL_SYSTEM)",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "fixup_dbi",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def fixup_dbi():\n    # We used to have a dbi.pyd with our .pyd files, but now have a .py file.\n    # If the user didn't uninstall, they will find the .pyd which will cause\n    # problems - so handle that.\n    import win32api\n    import win32con\n    pyd_name = os.path.join(os.path.dirname(win32api.__file__), \"dbi.pyd\")\n    pyd_d_name = os.path.join(os.path.dirname(win32api.__file__), \"dbi_d.pyd\")\n    py_name = os.path.join(os.path.dirname(win32con.__file__), \"dbi.py\")\n    for this_pyd in (pyd_name, pyd_d_name):",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "install",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def install(lib_dir):\n    import traceback\n    # The .pth file is now installed as a regular file.\n    # Create the .pth file in the site-packages dir, and use only relative paths\n    # We used to write a .pth directly to sys.prefix - clobber it.\n    if os.path.isfile(os.path.join(sys.prefix, \"pywin32.pth\")):\n        os.unlink(os.path.join(sys.prefix, \"pywin32.pth\"))\n    # The .pth may be new and therefore not loaded in this session.\n    # Setup the paths just in case.\n    for name in \"win32 win32\\\\lib Pythonwin\".split():",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "uninstall",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def uninstall(lib_dir):\n    # First ensure our system modules are loaded from pywin32_system, so\n    # we can remove the ones we copied...\n    LoadSystemModule(lib_dir, \"pywintypes\")\n    LoadSystemModule(lib_dir, \"pythoncom\")\n    try:\n        RegisterCOMObjects(False)\n    except Exception as why:\n        print(f\"Failed to unregister COM objects: {why}\")\n    try:",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "verify_destination",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def verify_destination(location: str) -> str:\n    location = os.path.abspath(location)\n    if not os.path.isdir(location):\n        raise argparse.ArgumentTypeError(\n            f'Path \"{location}\" is not an existing directory!'\n        )\n    return location\ndef main():\n    parser = argparse.ArgumentParser(\n        formatter_class=argparse.RawDescriptionHelpFormatter,",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "def main():\n    parser = argparse.ArgumentParser(\n        formatter_class=argparse.RawDescriptionHelpFormatter,\n        description=\"\"\"A post-install script for the pywin32 extensions.\n    * Typical usage:\n    > python -m pywin32_postinstall -install\n    * or (shorter but you don't have control over which python environment is used)\n    > pywin32_postinstall -install\n    You need to execute this script, with a '-install' parameter,\n    to ensure the environment is setup correctly to install COM objects, services, etc.",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "tee_f",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "tee_f = open(\n    os.path.join(\n        tempfile.gettempdir(),  # Send output somewhere so it can be found if necessary...\n        \"pywin32_postinstall.log\",\n    ),\n    \"w\",\n)\nclass Tee:\n    def __init__(self, file):\n        self.f = file",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "sys.stderr",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "sys.stderr = Tee(sys.stderr)\nsys.stdout = Tee(sys.stdout)\ncom_modules = [\n    # module_name,                      class_names\n    (\"win32com.servers.interp\", \"Interpreter\"),\n    (\"win32com.servers.dictionary\", \"DictionaryPolicy\"),\n    (\"win32com.axscript.client.pyscript\", \"PyScript\"),\n]\n# Is this a 'silent' install - ie, avoid all dialogs.\n# Different than 'verbose'",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "sys.stdout",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "sys.stdout = Tee(sys.stdout)\ncom_modules = [\n    # module_name,                      class_names\n    (\"win32com.servers.interp\", \"Interpreter\"),\n    (\"win32com.servers.dictionary\", \"DictionaryPolicy\"),\n    (\"win32com.axscript.client.pyscript\", \"PyScript\"),\n]\n# Is this a 'silent' install - ie, avoid all dialogs.\n# Different than 'verbose'\nsilent = 0",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "com_modules",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "com_modules = [\n    # module_name,                      class_names\n    (\"win32com.servers.interp\", \"Interpreter\"),\n    (\"win32com.servers.dictionary\", \"DictionaryPolicy\"),\n    (\"win32com.axscript.client.pyscript\", \"PyScript\"),\n]\n# Is this a 'silent' install - ie, avoid all dialogs.\n# Different than 'verbose'\nsilent = 0\n# Verbosity of output messages.",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "silent",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "silent = 0\n# Verbosity of output messages.\nverbose = 1\nroot_key_name = \"Software\\\\Python\\\\PythonCore\\\\\" + sys.winver\ndef get_root_hkey():\n    try:\n        winreg.OpenKey(\n            winreg.HKEY_LOCAL_MACHINE, root_key_name, 0, winreg.KEY_CREATE_SUB_KEY\n        )\n        return winreg.HKEY_LOCAL_MACHINE",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "verbose",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "verbose = 1\nroot_key_name = \"Software\\\\Python\\\\PythonCore\\\\\" + sys.winver\ndef get_root_hkey():\n    try:\n        winreg.OpenKey(\n            winreg.HKEY_LOCAL_MACHINE, root_key_name, 0, winreg.KEY_CREATE_SUB_KEY\n        )\n        return winreg.HKEY_LOCAL_MACHINE\n    except OSError:\n        # Either not exist, or no permissions to create subkey means",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "root_key_name",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_postinstall",
+        "description": "venv.Scripts.pywin32_postinstall",
+        "peekOfCode": "root_key_name = \"Software\\\\Python\\\\PythonCore\\\\\" + sys.winver\ndef get_root_hkey():\n    try:\n        winreg.OpenKey(\n            winreg.HKEY_LOCAL_MACHINE, root_key_name, 0, winreg.KEY_CREATE_SUB_KEY\n        )\n        return winreg.HKEY_LOCAL_MACHINE\n    except OSError:\n        # Either not exist, or no permissions to create subkey means\n        # must be HKCU",
+        "detail": "venv.Scripts.pywin32_postinstall",
+        "documentation": {}
+    },
+    {
+        "label": "run_test",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_testall",
+        "description": "venv.Scripts.pywin32_testall",
+        "peekOfCode": "def run_test(script, cmdline_extras):\n    dirname, scriptname = os.path.split(script)\n    # some tests prefer to be run from their directory.\n    cmd = [sys.executable, \"-u\", scriptname] + cmdline_extras\n    print(\"--- Running '%s' ---\" % script)\n    sys.stdout.flush()\n    result = subprocess.run(cmd, check=False, cwd=dirname)\n    print(f\"*** Test script '{script}' exited with {result.returncode}\")\n    sys.stdout.flush()\n    if result.returncode:",
+        "detail": "venv.Scripts.pywin32_testall",
+        "documentation": {}
+    },
+    {
+        "label": "find_and_run",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_testall",
+        "description": "venv.Scripts.pywin32_testall",
+        "peekOfCode": "def find_and_run(possible_locations, extras):\n    for maybe in possible_locations:\n        if os.path.isfile(maybe):\n            run_test(maybe, extras)\n            break\n    else:\n        raise RuntimeError(\n            \"Failed to locate a test script in one of %s\" % possible_locations\n        )\ndef main():",
+        "detail": "venv.Scripts.pywin32_testall",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "venv.Scripts.pywin32_testall",
+        "description": "venv.Scripts.pywin32_testall",
+        "peekOfCode": "def main():\n    import argparse\n    code_directories = [project_root] + site_packages\n    parser = argparse.ArgumentParser(\n        description=\"A script to trigger tests in all subprojects of PyWin32.\"\n    )\n    parser.add_argument(\n        \"-no-user-interaction\",\n        default=False,\n        action=\"store_true\",",
+        "detail": "venv.Scripts.pywin32_testall",
+        "documentation": {}
+    },
+    {
+        "label": "project_root",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_testall",
+        "description": "venv.Scripts.pywin32_testall",
+        "peekOfCode": "project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))\nsite_packages = [site.getusersitepackages()] + site.getsitepackages()\nfailures = []\n# Run a test using subprocess and wait for the result.\n# If we get an returncode != 0, we know that there was an error, but we don't\n# abort immediately - we run as many tests as we can.\ndef run_test(script, cmdline_extras):\n    dirname, scriptname = os.path.split(script)\n    # some tests prefer to be run from their directory.\n    cmd = [sys.executable, \"-u\", scriptname] + cmdline_extras",
+        "detail": "venv.Scripts.pywin32_testall",
+        "documentation": {}
+    },
+    {
+        "label": "site_packages",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_testall",
+        "description": "venv.Scripts.pywin32_testall",
+        "peekOfCode": "site_packages = [site.getusersitepackages()] + site.getsitepackages()\nfailures = []\n# Run a test using subprocess and wait for the result.\n# If we get an returncode != 0, we know that there was an error, but we don't\n# abort immediately - we run as many tests as we can.\ndef run_test(script, cmdline_extras):\n    dirname, scriptname = os.path.split(script)\n    # some tests prefer to be run from their directory.\n    cmd = [sys.executable, \"-u\", scriptname] + cmdline_extras\n    print(\"--- Running '%s' ---\" % script)",
+        "detail": "venv.Scripts.pywin32_testall",
+        "documentation": {}
+    },
+    {
+        "label": "failures",
+        "kind": 5,
+        "importPath": "venv.Scripts.pywin32_testall",
+        "description": "venv.Scripts.pywin32_testall",
+        "peekOfCode": "failures = []\n# Run a test using subprocess and wait for the result.\n# If we get an returncode != 0, we know that there was an error, but we don't\n# abort immediately - we run as many tests as we can.\ndef run_test(script, cmdline_extras):\n    dirname, scriptname = os.path.split(script)\n    # some tests prefer to be run from their directory.\n    cmd = [sys.executable, \"-u\", scriptname] + cmdline_extras\n    print(\"--- Running '%s' ---\" % script)\n    sys.stdout.flush()",
+        "detail": "venv.Scripts.pywin32_testall",
+        "documentation": {}
+    },
+    {
+        "label": "db_manager",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "db_manager = DatabaseManager()\n# Set up the page configuration\nst.set_page_config(\n    page_title=\"MCP Chat Application\",\n    page_icon=\"🤖\",\n    layout=\"wide\"\n)\n# Initialize session state\nif \"messages\" not in st.session_state:\n    st.session_state.messages = []",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "llm_configs",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "llm_configs = db_manager.get_llm_configs()\nllm_options = {config['name']: config for config in llm_configs} if llm_configs else {}\nasync def run_agent(agent: MCPAgent, prompt: str, chat_history, llm_config):\n    \"\"\"Run the MCP agent with the given prompt and chat history.\"\"\"\n    try:\n        # Initialize the agent with the LLM configuration\n        await agent.initialize_agent(llm_config)\n        response = await agent.execute(prompt, chat_history)\n        # Check if there were connection errors and set alert\n        if hasattr(agent, 'connection_errors') and agent.connection_errors:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "llm_options",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "llm_options = {config['name']: config for config in llm_configs} if llm_configs else {}\nasync def run_agent(agent: MCPAgent, prompt: str, chat_history, llm_config):\n    \"\"\"Run the MCP agent with the given prompt and chat history.\"\"\"\n    try:\n        # Initialize the agent with the LLM configuration\n        await agent.initialize_agent(llm_config)\n        response = await agent.execute(prompt, chat_history)\n        # Check if there were connection errors and set alert\n        if hasattr(agent, 'connection_errors') and agent.connection_errors:\n            st.session_state.connection_alert = \"⚠️ Connection issue detected with MCP servers. Only built-in tools are available. Please check your MCP server configurations in the Settings tab.\"",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 5,
+        "importPath": "check_db",
+        "description": "check_db",
+        "peekOfCode": "db = DatabaseManager()\n# Disable the problematic Weather MCP server\nservers = db.get_mcp_servers(enabled_only=False)\nfor server in servers:\n    if server['name'] == 'Weather mcp' and server['enabled']:\n        db.update_mcp_server(server['id'], enabled=False)\n        print(f'Disabled Weather MCP server (ID: {server[\"id\"]})')\n# Get servers again to show current state\nservers = db.get_mcp_servers()\nprint('Enabled MCP Servers in database:')",
+        "detail": "check_db",
+        "documentation": {}
+    },
+    {
+        "label": "servers",
+        "kind": 5,
+        "importPath": "check_db",
+        "description": "check_db",
+        "peekOfCode": "servers = db.get_mcp_servers(enabled_only=False)\nfor server in servers:\n    if server['name'] == 'Weather mcp' and server['enabled']:\n        db.update_mcp_server(server['id'], enabled=False)\n        print(f'Disabled Weather MCP server (ID: {server[\"id\"]})')\n# Get servers again to show current state\nservers = db.get_mcp_servers()\nprint('Enabled MCP Servers in database:')\nfor server in servers:\n    print(f'  {server[\"name\"]}: {json.dumps(server, indent=2)}')",
+        "detail": "check_db",
+        "documentation": {}
+    },
+    {
+        "label": "servers",
+        "kind": 5,
+        "importPath": "check_db",
+        "description": "check_db",
+        "peekOfCode": "servers = db.get_mcp_servers()\nprint('Enabled MCP Servers in database:')\nfor server in servers:\n    print(f'  {server[\"name\"]}: {json.dumps(server, indent=2)}')\nprint(f'\\nTotal enabled servers: {len(servers)}')\n# Also show all servers (enabled and disabled)\nall_servers = db.get_mcp_servers(enabled_only=False)\nprint('\\nAll MCP Servers in database (including disabled):')\nfor server in all_servers:\n    status = \"DISABLED\" if not server['enabled'] else \"ENABLED\"",
+        "detail": "check_db",
+        "documentation": {}
+    },
+    {
+        "label": "all_servers",
+        "kind": 5,
+        "importPath": "check_db",
+        "description": "check_db",
+        "peekOfCode": "all_servers = db.get_mcp_servers(enabled_only=False)\nprint('\\nAll MCP Servers in database (including disabled):')\nfor server in all_servers:\n    status = \"DISABLED\" if not server['enabled'] else \"ENABLED\"\n    print(f'  {server[\"name\"]} ({status}): {json.dumps(server, indent=2)}')\nprint(f'\\nTotal servers (all): {len(all_servers)}')",
+        "detail": "check_db",
+        "documentation": {}
+    },
+    {
+        "label": "DatabaseManager",
+        "kind": 6,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "class DatabaseManager:\n    def __init__(self, db_path: str = \"mcp_config.db\"):\n        self.db_path = db_path\n        self.init_database()\n    def init_database(self):\n        \"\"\"Initialize the database with required tables.\"\"\"\n        conn = sqlite3.connect(self.db_path)\n        cursor = conn.cursor()\n        # Create MCP servers table\n        cursor.execute('''",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_mcp_servers_as_config",
+        "kind": 2,
+        "importPath": "mcp_servers",
+        "description": "mcp_servers",
+        "peekOfCode": "def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:\n    \"\"\"Fetch MCP servers from database and format them as server_config.\"\"\"\n    db_manager = DatabaseManager()\n    servers = db_manager.get_mcp_servers()\n    server_config = {}\n    for server in servers:\n        # Skip invalid configurations\n        if server['transport'] == 'stdio' and not server['command']:\n            print(f\"Warning: Skipping server '{server['name']}' due to missing command for stdio transport\")\n            continue",
+        "detail": "mcp_servers",
+        "documentation": {}
+    },
+    {
+        "label": "server_config",
+        "kind": 5,
+        "importPath": "mcp_servers",
+        "description": "mcp_servers",
+        "peekOfCode": "server_config = {\n    \"math\": {\n        \"transport\": \"stdio\",  # Local subprocess communication\n        \"command\": \"python\",\n        # Absolute path to your math_server.py file\n        \"args\": [\"mcp_servers/math.py\"],\n    },\n}",
+        "detail": "mcp_servers",
+        "documentation": {}
+    }
+]

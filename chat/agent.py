@@ -23,6 +23,7 @@ class MCPAgent:
         print(f"MCPAgent: Server config: {server_config}")
         self.client = MCPManager(server_config)
         self.agent = None
+        self.tools = []
     
     async def initialize_agent(self, llm_config: Dict[str, Any]):
         """Initialize the agent with the specified LLM configuration and MCP tools."""
@@ -30,37 +31,29 @@ class MCPAgent:
         # Create chat model based on configuration
         chat_model = self._create_chat_model(llm_config)
         
-        # Get tools from MCP servers
-        tools = []
+        # Get tools from MCP servers with individual failure handling
+        self.tools = []
         connection_errors = []
+        failed_servers = {}
         try:
-            print("MCPAgent: Fetching tools from MCP manager...")
-            tools = await self.client.get_tools()
-            print(f"MCPAgent: Successfully loaded {len(tools)} MCP tools")
-            
-            # Check connection status
-            connection_status = await self.client.get_connection_status()
-            print(f"MCPAgent: Connection status: {connection_status}")
-            
-            # Check for any closed connections and collect errors
-            for name, status in connection_status.items():
-                if status != "Active" or "Error" in str(status):
-                    connection_errors.append(f"Server '{name}' connection issue: {status}")
-                    
+            print("MCPAgent: Fetching tools from MCP manager with failure handling...")
+            self.tools, failed_servers = await self.client.get_tools_with_failures()
+            print(f"MCPAgent: Successfully loaded {len(self.tools)} MCP tools")
+
+            # Convert failed servers to connection errors for backward compatibility
+            for server_name, error_msg in failed_servers.items():
+                connection_errors.append(f"Server '{server_name}' failed: {error_msg}")
+
         except Exception as e:
             error_msg = str(e)
             print(f"MCPAgent: Warning: Could not load MCP tools: {error_msg}")
             import traceback
             traceback.print_exc()
-            tools = []
-            
+            self.tools = []
+
             # Check if this is a connection closed error
             if "Connection closed" in error_msg or "connection closed" in error_msg.lower():
                 connection_errors.append(f"Connection closed error: {error_msg}")
-        
-        # Report connection errors if any
-        if connection_errors:
-            print(f"MCPAgent: Connection errors detected: {connection_errors}")
 
         # Create the tool validation callback
         self.validation_callback = ToolValidationCallback()
@@ -69,15 +62,9 @@ class MCPAgent:
         print("MCPAgent: Creating LangChain agent...")
         self.agent = create_agent(
             model=chat_model,
-            tools=tools if tools else None,
+            tools=self.tools if self.tools else None,
             debug=True
         )
-
-        # If agent supports callbacks, add our validation callback
-        if hasattr(self.agent, 'callbacks'):
-            self.agent.callbacks = [self.validation_callback]
-        elif hasattr(self.agent, 'add_callback'):
-            self.agent.add_callback(self.validation_callback)
 
         print("MCPAgent: Agent created successfully")
 
@@ -132,9 +119,12 @@ class MCPAgent:
             # Clear previous validation failures
             self.validation_callback.clear_failures()
 
-            # Execute the agent with the messages
-            # In LangChain 1.0.0, we pass messages directly
-            response = await self.agent.ainvoke({"messages": messages})
+            # Execute the agent with the messages and callbacks
+            # In LangChain 1.0.0, we pass messages directly and include callbacks
+            response = await self.agent.ainvoke(
+                {"messages": messages},
+                {"callbacks": [self.validation_callback]}
+            )
 
             # Check for validation failures that may need user input
             validation_failures = self.validation_callback.get_tool_call_failures()
@@ -157,9 +147,13 @@ class MCPAgent:
             result = self._extract_content(response)
             print(f"MCPAgent: Execution result: {result}")
 
-            # If we had connection errors, append a note to the result
+            # If we had connection errors, append a detailed note to the result
             if hasattr(self, 'connection_errors') and self.connection_errors:
-                error_note = "\n\n⚠️ Note: Some MCP server connections encountered issues. Only built-in tools are available."
+                failed_server_names = [error.split("'")[1] for error in self.connection_errors if "'" in error]
+                if failed_server_names:
+                    error_note = f"\n\n⚠️ Note: The following MCP servers failed to load: {', '.join(failed_server_names)}. Proceeding with available tools only."
+                else:
+                    error_note = "\n\n⚠️ Note: Some MCP server connections encountered issues. Proceeding with available tools only."
                 result += error_note
 
             return result

@@ -297,6 +297,7 @@ if st.session_state.show_mcp_modal:
         # Conditional fields based on transport type
         command = ""
         args = ""
+        env = ""
         url = ""
 
         if transport == "stdio":
@@ -308,45 +309,64 @@ if st.session_state.show_mcp_modal:
                     args = st.text_input("Arguments", value=f"./{file_path}", disabled=True)
                 else:
                     args = st.text_input("Arguments", value="", disabled=True)
-                st.caption("Command and arguments are automatically set for uploaded files")
+                env = st.text_area("Environment Variables (JSON)", value="", height=100, disabled=True)
+                st.caption("Command, arguments, and environment are automatically set for uploaded files")
             else:
                 if st.session_state.show_mcp_modal == "edit" and st.session_state.edit_server_data is not None:
                     command_value = st.session_state.edit_server_data.get('command', '') or ""
                     command = st.text_input("Command", value=command_value)
                     args_value = ""
                     if st.session_state.edit_server_data.get('args'):
-                        # For stdio, args should be a list, so join them
+                        # Args are now always list, so join them
                         if isinstance(st.session_state.edit_server_data['args'], list):
                             args_value = ",".join(st.session_state.edit_server_data['args'])
                         else:
                             args_value = str(st.session_state.edit_server_data['args'])
                     args = st.text_input("Arguments", value=args_value)
+                    env_value = ""
+                    if st.session_state.edit_server_data.get('env'):
+                        # Env is always dict, format as JSON
+                        if isinstance(st.session_state.edit_server_data['env'], dict):
+                            env_value = json.dumps(st.session_state.edit_server_data['env'], indent=2)
+                        else:
+                            env_value = "{}"
+                    env = st.text_area("Environment Variables (JSON)", value=env_value, height=100)
                 else:
                     command = st.text_input("Command", placeholder="e.g., python")
                     args = st.text_input("Arguments", placeholder="e.g., server.py,arg1,arg2")
-                st.caption("Command to execute the server and arguments to pass to it (comma-separated)")
+                    env = st.text_area("Environment Variables (JSON)", value="", height=100, placeholder='{"API_KEY": "your_key"}')
+                st.caption("Command to execute the server. Arguments are comma-separated. Environment variables as JSON object.")
         elif transport in ["streamable_http", "sse"]:
             transport_names = {
                 "streamable_http": "Streamable HTTP",
                 "sse": "Server-Sent Events"
             }
             st.subheader(f"{transport_names[transport]} Transport Configuration")
-            # Show URL field and JSON args for streamable_http and sse transports
+            # Show URL field, args as comma-separated, env as JSON
             if st.session_state.show_mcp_modal == "edit" and st.session_state.edit_server_data is not None:
                 url_value = st.session_state.edit_server_data.get('url', '') or ""
                 url = st.text_input("Server URL", value=url_value)
                 args_value = ""
                 if st.session_state.edit_server_data.get('args'):
-                    # For streamable_http/sse, args should be JSON, so format as JSON string
-                    if isinstance(st.session_state.edit_server_data['args'], dict):
-                        args_value = json.dumps(st.session_state.edit_server_data['args'], indent=2)
+                    # Args are now always list, so join them
+                    if isinstance(st.session_state.edit_server_data['args'], list):
+                        args_value = ",".join(st.session_state.edit_server_data['args'])
                     else:
                         args_value = str(st.session_state.edit_server_data['args'])
-                args = st.text_area("Arguments (JSON)", value=args_value, height=100)
+                args = st.text_input("Arguments", value=args_value)
+                env_value = ""
+                if st.session_state.edit_server_data.get('env'):
+                    # Env is always dict, format as JSON
+                    if isinstance(st.session_state.edit_server_data['env'], dict):
+                        env_value = json.dumps(st.session_state.edit_server_data['env'], indent=2)
+                    else:
+                        env_value = "{}"
+                env = st.text_area("Environment Variables (JSON)", value=env_value, height=100)
             else:
                 url = st.text_input("Server URL", placeholder=f"e.g., http://localhost:8000/mcp")
-                args = st.text_area("Arguments (JSON)", value="", height=100, placeholder='{"key": "value"}')
-            st.caption(f"URL where the {transport_names[transport]} server is running. Arguments should be valid JSON.")
+                args = st.text_input("Arguments", placeholder="e.g., arg1,arg2")
+                env = st.text_area("Environment Variables (JSON)", value="", height=100, placeholder='{"AUTH_TOKEN": "your_token"}')
+            st.caption(f"URL where the {transport_names[transport]} server is running. Arguments are comma-separated. Environment variables as JSON for auth or headers.")
 
         # Enabled checkbox
         enabled_default = True
@@ -364,33 +384,34 @@ if st.session_state.show_mcp_modal:
                 "transport": transport,
             }
 
-            # Add transport-specific fields
+            # Add transport-specific fields - args are now always comma-separated list for all transports
             if transport == "stdio":
                 if command:
                     temp_config[temp_name]["command"] = command
                 if args:
-                    temp_args = args.split(",") if args else []
+                    temp_args = [arg.strip() for arg in args.split(",") if arg.strip()] if args else []
                     if temp_args:
                         temp_config[temp_name]["args"] = temp_args
+                # No env for test connection currently
             elif transport in ["streamable_http", "sse"]:
                 if url:
                     temp_config[temp_name]["url"] = url
                 if args:
-                    try:
-                        temp_args = json.loads(args) if args else None
-                    except json.JSONDecodeError:
-                        temp_args = None
+                    temp_args = [arg.strip() for arg in args.split(",") if arg.strip()] if args else []
                     if temp_args:
                         temp_config[temp_name]["args"] = temp_args
+                # No env for test connection currently
 
             # Test the connection to this specific server
             try:
                 test_manager = MCPManager(temp_config)
-                connection_status = asyncio.run(test_manager.test_server_connection(temp_name))
-                if connection_status == "Active":
-                    st.success("✅ Connection successful! Server is reachable and tools are available.")
+                status, details = asyncio.run(test_manager.test_server_connection(temp_name))
+                if status == "success":
+                    st.success(f"✅ Connection successful! {details}")
+                elif status == "no_tools":
+                    st.warning(f"⚠️ Connection established but {details}")
                 else:
-                    st.error(f"❌ Connection failed: {connection_status}")
+                    st.error(f"❌ Connection failed: {details}")
             except Exception as e:
                 st.error(f"❌ Connection test failed: {str(e)}")
 
@@ -405,8 +426,9 @@ if st.session_state.show_mcp_modal:
 
             if submitted:
                 if st.session_state.show_mcp_modal == "add":
-                    # Initialize args_list
+                    # Initialize args_list and env_dict
                     args_list = []
+                    env_dict = {}
 
                     # Handle uploaded file if present
                     if uploaded_file is not None and file_path is not None:
@@ -418,27 +440,29 @@ if st.session_state.show_mcp_modal:
                             # Set command and args for uploaded file
                             command = "python"
                             args_list = [f"./{file_path}"]
+                            env_dict = {}
                         except Exception as e:
                             st.error(f"Failed to save uploaded file: {str(e)}")
                             args_list = []
+                            env_dict = {}
                     else:
-                        if transport == "stdio":
-                            args_list = args.split(",") if args else []
-                        elif transport in ["streamable_http", "sse"]:
-                            # For streamable_http/sse, parse JSON args
-                            try:
-                                args_list = json.loads(args) if args else None
-                            except json.JSONDecodeError:
-                                st.error("Invalid JSON in Arguments field. Please provide valid JSON.")
-                                args_list = None
+                        # Parse args as comma-separated list for all transports
+                        args_list = [arg.strip() for arg in args.split(",") if arg.strip()] if args else []
+                        # Parse env as JSON dict
+                        try:
+                            env_dict = json.loads(env) if env.strip() else {}
+                        except json.JSONDecodeError:
+                            st.error("Invalid JSON in Environment Variables field. Please provide valid JSON.")
+                            env_dict = {}
 
                     # Handle optional parameters
                     command_param = command if command else None
                     args_param = args_list if args_list else None
+                    env_param = env_dict if env_dict else None
                     url_param = url if url else None
                     description_param = description if description else None
 
-                    if db_manager.add_mcp_server(name, transport, command_param, args_param, url_param, description_param):
+                    if db_manager.add_mcp_server(name, transport, command_param, args_param, env_param, url_param, description_param):
                         st.success(f"Server '{name}' added successfully!")
                         # Reset session state
                         st.session_state.add_server_transport = "stdio"
@@ -447,19 +471,18 @@ if st.session_state.show_mcp_modal:
                     else:
                         st.error(f"Failed to add server '{name}'. It might already exist.")
                 else:
-                    # Edit mode
-                    if transport == "stdio":
-                        args_list = args.split(",") if args else []
-                    elif transport in ["streamable_http", "sse"]:
-                        # For streamable_http/sse, parse JSON args
-                        try:
-                            args_list = json.loads(args) if args else None
-                        except json.JSONDecodeError:
-                            st.error("Invalid JSON in Arguments field. Please provide valid JSON.")
-                            args_list = None
+                    # Edit mode - same logic as add
+                    args_list = [arg.strip() for arg in args.split(",") if arg.strip()] if args else []
+                    # Parse env as JSON dict
+                    try:
+                        env_dict = json.loads(env) if env.strip() else {}
+                    except json.JSONDecodeError:
+                        st.error("Invalid JSON in Environment Variables field. Please provide valid JSON.")
+                        env_dict = {}
                     # Handle optional parameters
                     command_param = command if command else None
                     args_param = args_list if args_list else None
+                    env_param = env_dict if env_dict else None
                     url_param = url if url else None
                     description_param = description if description else None
 
@@ -470,6 +493,7 @@ if st.session_state.show_mcp_modal:
                         transport=transport,
                         command=command_param,
                         args=args_param,
+                        env=env_param,
                         url=url_param,
                         enabled=enabled
                     ):
