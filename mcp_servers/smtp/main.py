@@ -4,29 +4,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
 import smtplib
-from typing import List
+from typing import List, Dict, Any
 
-from pydantic import BaseModel, Field
 from mcp.server import FastMCP
 from dotenv import load_dotenv
-
-# Define models directly in this file to avoid import issues
-class SMTPServerConfig(BaseModel):
-    """
-    Model for SMTP server configuration.
-    """
-    host: str = Field(..., description="The hostname or IP address of the SMTP server.")
-    port: int = Field(..., description="The port number of the SMTP server.")
-    username: str = Field(..., description="The username for authenticating with the SMTP server.")
-    password: str = Field(..., description="The password for authenticating with the SMTP server.")
-
-class SMTPMessageInput(BaseModel):
-    """
-    Model for input data to send via SMTP.
-    """
-    to: List[str] = Field(..., description="Recipient email address.")
-    subject: str = Field(..., description="Subject of the email.")
-    body: str = Field(..., description="Body content of the email.")
 
 load_dotenv()
 
@@ -42,20 +23,22 @@ config = {
 }
 
 @mcp.tool()
-def send_email(input_data: SMTPMessageInput) -> str:
+def send_email(to: List[str], subject: str, body: str) -> str:
     """
     Send an email using SMTP server configuration.
 
     Args:
-        input_data: The email details to send
+        to: Recipient email addresses
+        subject: Subject of the email
+        body: Body content of the email
     """
     """ Send an email using the configured SMTP server."""
     try:
         print(config)
         msg = MIMEMultipart()
         msg["From"] = config["username"]
-        msg["Subject"] = input_data.subject
-        msg.attach(MIMEText(input_data.body, "plain"))
+        msg["Subject"] = subject
+        msg.attach(MIMEText(body, "plain"))
         
         server = smtplib.SMTP_SSL(
             host=config["host"],
@@ -63,7 +46,7 @@ def send_email(input_data: SMTPMessageInput) -> str:
             timeout=5
         )
         server.login(config["username"], config["password"])
-        for recipient in input_data.to:
+        for recipient in to:
             server.sendmail(
                 config["username"],
                 recipient,

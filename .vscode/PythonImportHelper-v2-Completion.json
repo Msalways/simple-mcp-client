@@ -104,22 +104,6 @@
         "documentation": {}
     },
     {
-        "label": "BaseModel",
-        "importPath": "pydantic",
-        "description": "pydantic",
-        "isExtraImport": true,
-        "detail": "pydantic",
-        "documentation": {}
-    },
-    {
-        "label": "Field",
-        "importPath": "pydantic",
-        "description": "pydantic",
-        "isExtraImport": true,
-        "detail": "pydantic",
-        "documentation": {}
-    },
-    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -202,6 +186,22 @@
     },
     {
         "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -623,29 +623,11 @@
         "documentation": {}
     },
     {
-        "label": "SMTPServerConfig",
-        "kind": 6,
-        "importPath": "mcp_servers.smtp.main",
-        "description": "mcp_servers.smtp.main",
-        "peekOfCode": "class SMTPServerConfig(BaseModel):\n    \"\"\"\n    Model for SMTP server configuration.\n    \"\"\"\n    host: str = Field(..., description=\"The hostname or IP address of the SMTP server.\")\n    port: int = Field(..., description=\"The port number of the SMTP server.\")\n    username: str = Field(..., description=\"The username for authenticating with the SMTP server.\")\n    password: str = Field(..., description=\"The password for authenticating with the SMTP server.\")\nclass SMTPMessageInput(BaseModel):\n    \"\"\"",
-        "detail": "mcp_servers.smtp.main",
-        "documentation": {}
-    },
-    {
-        "label": "SMTPMessageInput",
-        "kind": 6,
-        "importPath": "mcp_servers.smtp.main",
-        "description": "mcp_servers.smtp.main",
-        "peekOfCode": "class SMTPMessageInput(BaseModel):\n    \"\"\"\n    Model for input data to send via SMTP.\n    \"\"\"\n    to: List[str] = Field(..., description=\"Recipient email address.\")\n    subject: str = Field(..., description=\"Subject of the email.\")\n    body: str = Field(..., description=\"Body content of the email.\")\nload_dotenv()\nmcp = FastMCP(\"SMTP Server\", instructions=\"\"\"\nThis MCP server allows you to send emails using an SMTP server configuration.",
-        "detail": "mcp_servers.smtp.main",
-        "documentation": {}
-    },
-    {
         "label": "send_email",
         "kind": 2,
         "importPath": "mcp_servers.smtp.main",
         "description": "mcp_servers.smtp.main",
-        "peekOfCode": "def send_email(input_data: SMTPMessageInput) -> str:\n    \"\"\"\n    Send an email using SMTP server configuration.\n    Args:\n        input_data: The email details to send\n    \"\"\"\n    \"\"\" Send an email using the configured SMTP server.\"\"\"\n    try:\n        print(config)\n        msg = MIMEMultipart()",
+        "peekOfCode": "def send_email(to: List[str], subject: str, body: str) -> str:\n    \"\"\"\n    Send an email using SMTP server configuration.\n    Args:\n        to: Recipient email addresses\n        subject: Subject of the email\n        body: Body content of the email\n    \"\"\"\n    \"\"\" Send an email using the configured SMTP server.\"\"\"\n    try:",
         "detail": "mcp_servers.smtp.main",
         "documentation": {}
     },
@@ -663,7 +645,7 @@
         "kind": 5,
         "importPath": "mcp_servers.smtp.main",
         "description": "mcp_servers.smtp.main",
-        "peekOfCode": "config = {\n    \"host\": os.getenv(\"SMTP_HOST\"),\n    \"port\": int(os.getenv(\"SMTP_PORT\", 465)),\n    \"username\": os.getenv(\"SMTP_USERNAME\"),\n    \"password\": os.getenv(\"SMTP_PASSWORD\"),\n}\n@mcp.tool()\ndef send_email(input_data: SMTPMessageInput) -> str:\n    \"\"\"\n    Send an email using SMTP server configuration.",
+        "peekOfCode": "config = {\n    \"host\": os.getenv(\"SMTP_HOST\"),\n    \"port\": int(os.getenv(\"SMTP_PORT\", 465)),\n    \"username\": os.getenv(\"SMTP_USERNAME\"),\n    \"password\": os.getenv(\"SMTP_PASSWORD\"),\n}\n@mcp.tool()\ndef send_email(to: List[str], subject: str, body: str) -> str:\n    \"\"\"\n    Send an email using SMTP server configuration.",
         "detail": "mcp_servers.smtp.main",
         "documentation": {}
     },
