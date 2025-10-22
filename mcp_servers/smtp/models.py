@@ -16,3 +16,6 @@ class SMTPMessageInput(BaseModel):
     to: list[str] = Field(..., description="Recipient email address.")
     subject: str = Field(..., description="Subject of the email.")
     body: str = Field(..., description="Body content of the email.")
+
+# This file is no longer needed as the models have been moved to main.py
+# It is kept for backward compatibility

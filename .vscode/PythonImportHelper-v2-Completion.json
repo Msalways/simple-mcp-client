@@ -104,6 +104,22 @@
         "documentation": {}
     },
     {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -178,6 +194,14 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -599,6 +623,24 @@
         "documentation": {}
     },
     {
+        "label": "SMTPServerConfig",
+        "kind": 6,
+        "importPath": "mcp_servers.smtp.main",
+        "description": "mcp_servers.smtp.main",
+        "peekOfCode": "class SMTPServerConfig(BaseModel):\n    \"\"\"\n    Model for SMTP server configuration.\n    \"\"\"\n    host: str = Field(..., description=\"The hostname or IP address of the SMTP server.\")\n    port: int = Field(..., description=\"The port number of the SMTP server.\")\n    username: str = Field(..., description=\"The username for authenticating with the SMTP server.\")\n    password: str = Field(..., description=\"The password for authenticating with the SMTP server.\")\nclass SMTPMessageInput(BaseModel):\n    \"\"\"",
+        "detail": "mcp_servers.smtp.main",
+        "documentation": {}
+    },
+    {
+        "label": "SMTPMessageInput",
+        "kind": 6,
+        "importPath": "mcp_servers.smtp.main",
+        "description": "mcp_servers.smtp.main",
+        "peekOfCode": "class SMTPMessageInput(BaseModel):\n    \"\"\"\n    Model for input data to send via SMTP.\n    \"\"\"\n    to: List[str] = Field(..., description=\"Recipient email address.\")\n    subject: str = Field(..., description=\"Subject of the email.\")\n    body: str = Field(..., description=\"Body content of the email.\")\nload_dotenv()\nmcp = FastMCP(\"SMTP Server\", instructions=\"\"\"\nThis MCP server allows you to send emails using an SMTP server configuration.",
+        "detail": "mcp_servers.smtp.main",
+        "documentation": {}
+    },
+    {
         "label": "send_email",
         "kind": 2,
         "importPath": "mcp_servers.smtp.main",
@@ -639,7 +681,7 @@
         "kind": 6,
         "importPath": "mcp_servers.smtp.models",
         "description": "mcp_servers.smtp.models",
-        "peekOfCode": "class SMTPMessageInput(BaseModel):\n    \"\"\"\n    Model for input data to send via SMTP.\n    \"\"\"\n    to: list[str] = Field(..., description=\"Recipient email address.\")\n    subject: str = Field(..., description=\"Subject of the email.\")\n    body: str = Field(..., description=\"Body content of the email.\")",
+        "peekOfCode": "class SMTPMessageInput(BaseModel):\n    \"\"\"\n    Model for input data to send via SMTP.\n    \"\"\"\n    to: list[str] = Field(..., description=\"Recipient email address.\")\n    subject: str = Field(..., description=\"Subject of the email.\")\n    body: str = Field(..., description=\"Body content of the email.\")\n# This file is no longer needed as the models have been moved to main.py\n# It is kept for backward compatibility",
         "detail": "mcp_servers.smtp.models",
         "documentation": {}
     },
