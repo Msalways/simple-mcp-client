@@ -15,6 +15,8 @@ class MCPManager:
         else:
             self.server_configs = server_configs
         self.client = MultiServerMCPClient(self.server_configs)
+        self.sessions = {}  # Store persistent session context managers
+        self.active_sessions = {}  # Store active session objects
 
     async def list_servers(self):
         """List all configured MCP servers."""
@@ -65,8 +67,12 @@ class MCPManager:
         for server_name, connection in self.client.connections.items():
             try:
                 print(f"MCPManager: Fetching tools from server '{server_name}'...")
-                async with self.client.session(server_name) as session:
-                    tools = await load_mcp_tools(session)
+                # Open persistent session using context manager but store it properly
+                session_cm = self.client.session(server_name)
+                session = await session_cm.__aenter__()
+                self.sessions[server_name] = session_cm  # Store the context manager
+                self.active_sessions[server_name] = session  # Store the session object
+                tools = await load_mcp_tools(session)
                 if tools:
                     all_tools.extend(tools)
                     print(f"MCPManager: Successfully loaded {len(tools)} tools from '{server_name}'")
@@ -75,7 +81,7 @@ class MCPManager:
             except Exception as e:
                 error_msg = str(e)
                 print(f"MCPManager: Failed to load tools from '{server_name}': {error_msg}")
-                
+
                 # Provide more detailed error information for HTTP 401 errors
                 # Check if it's an exception group and extract the underlying error
                 if "401 Unauthorized" in error_msg:
@@ -83,7 +89,7 @@ class MCPManager:
                 elif "TaskGroup" in error_msg and "unhandled errors" in error_msg:
                     # This might contain a 401 error, let's provide a general auth error message
                     error_msg += " - This may indicate an authentication issue with the remote MCP server. Please check your API key or authentication credentials."
-                
+
                 failed_servers[server_name] = error_msg
                 import traceback
                 traceback.print_exc()
@@ -165,9 +171,21 @@ class MCPManager:
     #     """Fetch available prompts from MCP servers.""" 
     #     return await self.client.get_prompts(server_name)
 
+    async def close_sessions(self):
+        """Close all persistent sessions."""
+        for server_name, session in self.sessions.items():
+            try:
+                await session.__aexit__(None, None, None)
+                print(f"MCPManager: Closed session for '{server_name}'")
+            except Exception as e:
+                print(f"MCPManager: Error closing session for '{server_name}': {e}")
+        self.sessions.clear()
+
     async def refresh(self, new_configs: dict):
         """Hot-reload configuration and reinitialize the MultiServerMCPClient."""
         try:
+            # Close existing sessions before refreshing
+            await self.close_sessions()
             self.server_configs = new_configs
             self.client = MultiServerMCPClient(new_configs)
             print("MCPManager: Successfully refreshed configuration")

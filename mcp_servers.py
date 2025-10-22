@@ -18,22 +18,22 @@ def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:
         env_dict = server['env'] if server.get('env') and isinstance(server['env'], dict) else {}
 
         # Skip invalid configurations
-        if transport == 'stdio' and not command:
-            print(f"Warning: Skipping server '{name}' due to missing command for stdio transport")
+        if transport == 'stdio' and not command.strip():
+            print(f"Warning: Skipping server '{name}' due to missing or invalid command for stdio transport")
             continue
 
-        if transport in ['http', 'sse'] and not url:
-            print(f"Warning: Skipping server '{name}' due to missing URL for {transport} transport")
+        if transport in ['http', 'sse', 'streamable_http'] and not url.strip():
+            print(f"Warning: Skipping server '{name}' due to missing or invalid URL for {transport} transport")
             continue
 
         # Skip unknown transports
-        if transport not in ['stdio', 'http', 'sse']:
+        if transport not in ['stdio', 'streamable_http', 'sse']:
             print(f"Warning: Skipping server '{name}' due to unknown transport '{transport}'")
             continue
 
         # Map transport names to langchain-mcp-adapters expected names
         mapped_transport = transport
-        if transport == 'http':
+        if transport == 'streamable_http':
             mapped_transport = 'streamable_http'
 
         server_config[name] = {
@@ -49,15 +49,15 @@ def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:
                 print(f"Added stdio server '{name}' with args: {args_list}")
             if env_dict:
                 server_config[name]["env"] = env_dict
-        elif transport in ['http', 'sse']:
+        elif transport in ['http', 'sse', 'streamable_http']:
             if url:
                 server_config[name]["url"] = url
             if args_list:
                 # For http/sse, args might be used for additional config if supported
                 server_config[name]["args"] = args_list
-            if env_dict:
-                # For http/sse, env might be used for headers or auth
-                server_config[name]["env"] = env_dict
+            # Note: env not supported for http/sse transports - would cause TypeError
+            # if env_dict:
+            #     server_config[name]["env"] = env_dict
 
     print(f"Final server config: {server_config}")
     return server_config

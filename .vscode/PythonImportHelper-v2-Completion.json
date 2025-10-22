@@ -414,10 +414,10 @@
     },
     {
         "label": "FastMCP",
-        "importPath": "mcp.server",
-        "description": "mcp.server",
+        "importPath": "mcp.server.fastmcp",
+        "description": "mcp.server.fastmcp",
         "isExtraImport": true,
-        "detail": "mcp.server",
+        "detail": "mcp.server.fastmcp",
         "documentation": {}
     },
     {
@@ -566,6 +566,14 @@
         "importPath": "sqlite3",
         "description": "sqlite3",
         "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "MCPAgent",
+        "importPath": "chat.agent",
+        "description": "chat.agent",
+        "isExtraImport": true,
+        "detail": "chat.agent",
         "documentation": {}
     },
     {

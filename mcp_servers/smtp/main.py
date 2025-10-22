@@ -6,7 +6,7 @@ import os
 import smtplib
 from typing import List, Dict, Any
 
-from mcp.server import FastMCP
+from mcp.server.fastmcp import FastMCP
 from dotenv import load_dotenv
 
 load_dotenv()
