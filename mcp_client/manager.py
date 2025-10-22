@@ -1,4 +1,5 @@
 from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_mcp_adapters.tools import load_mcp_tools
 
 from mcp_servers import fetch_mcp_servers_as_config
 
@@ -64,7 +65,8 @@ class MCPManager:
         for server_name, connection in self.client.connections.items():
             try:
                 print(f"MCPManager: Fetching tools from server '{server_name}'...")
-                tools = await self.client.get_tools(server_name=server_name)
+                async with self.client.session(server_name) as session:
+                    tools = await load_mcp_tools(session)
                 if tools:
                     all_tools.extend(tools)
                     print(f"MCPManager: Successfully loaded {len(tools)} tools from '{server_name}'")
@@ -128,8 +130,9 @@ class MCPManager:
                 return "error", f"Server '{server_name}' not found in configuration"
 
             print(f"{self.client.connections.get(server_name)} Config")
-            # Try to get tools from this specific server
-            tools = await self.client.get_tools(server_name=server_name)
+            # Try to get tools from this specific server using session
+            async with self.client.session(server_name) as session:
+                tools = await load_mcp_tools(session)
             print(f"MCPManager: Tools fetched from '{server_name}': {tools}")
 
             if tools and len(tools) > 0:

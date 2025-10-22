@@ -371,6 +371,14 @@
         "documentation": {}
     },
     {
+        "label": "load_mcp_tools",
+        "importPath": "langchain_mcp_adapters.tools",
+        "description": "langchain_mcp_adapters.tools",
+        "isExtraImport": true,
+        "detail": "langchain_mcp_adapters.tools",
+        "documentation": {}
+    },
+    {
         "label": "time",
         "kind": 6,
         "isExtraImport": true,
@@ -1203,7 +1211,7 @@
         "kind": 2,
         "importPath": "mcp_servers",
         "description": "mcp_servers",
-        "peekOfCode": "def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:\n    \"\"\"Fetch MCP servers from database and format them as server_config.\"\"\"\n    db_manager = DatabaseManager()\n    servers = db_manager.get_mcp_servers()\n    server_config = {}\n    for server in servers:\n        # Skip invalid configurations\n        if server['transport'] == 'stdio' and not server['command']:\n            print(f\"Warning: Skipping server '{server['name']}' due to missing command for stdio transport\")\n            continue",
+        "peekOfCode": "def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:\n    \"\"\"Fetch MCP servers from database and format them as server_config.\"\"\"\n    db_manager = DatabaseManager()\n    servers = db_manager.get_mcp_servers()\n    server_config = {}\n    for server in servers:\n        # Get fields with defaults to avoid KeyError\n        name = server.get('name', 'unknown')\n        transport = server.get('transport', 'unknown')\n        command = server.get('command', '')",
         "detail": "mcp_servers",
         "documentation": {}
     },
