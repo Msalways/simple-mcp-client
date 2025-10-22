@@ -1,1 +1,1 @@
-from models import SMTPServerConfig, SMTPMessageInput
+from .models import SMTPServerConfig, SMTPMessageInput

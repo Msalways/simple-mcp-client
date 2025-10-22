@@ -372,22 +372,6 @@
         "documentation": {}
     },
     {
-        "label": "SMTPServerConfig",
-        "importPath": "models",
-        "description": "models",
-        "isExtraImport": true,
-        "detail": "models",
-        "documentation": {}
-    },
-    {
-        "label": "SMTPMessageInput",
-        "importPath": "models",
-        "description": "models",
-        "isExtraImport": true,
-        "detail": "models",
-        "documentation": {}
-    },
-    {
         "label": "smtplib",
         "kind": 6,
         "isExtraImport": true,

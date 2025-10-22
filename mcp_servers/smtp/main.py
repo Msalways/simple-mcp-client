@@ -3,7 +3,7 @@ import time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
-from models import SMTPServerConfig, SMTPMessageInput
+from .models import SMTPServerConfig, SMTPMessageInput
 import smtplib
 
 from mcp.server import FastMCP
