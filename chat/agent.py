@@ -5,23 +5,26 @@ from mcp_servers import fetch_mcp_servers_as_config
 from chat.callbacks import ToolValidationCallback
 from pydantic import SecretStr
 import os
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, cast
 from dotenv import load_dotenv
-
-# Remove unused imports
-# from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-# from langchain_core.messages import HumanMessage, AIMessage
+from database import DatabaseManager
 
 load_dotenv()
 
 class MCPAgent:
     """Agent that can interact with multiple MCP servers using LangChain."""
     
+    # Class variables to cache tools and resources
+    _cached_tools = None
+    _cached_resources = None
+    _cached_client = None
+    _cached_server_info = None
+    
     def __init__(self):
         print("MCPAgent: Initializing with server config...")
         server_config = fetch_mcp_servers_as_config()
         print(f"MCPAgent: Server config: {server_config}")
-        self.client = MCPManager(server_config)
+        self.client = MCPManager(cast(Dict[str, Any], server_config))
         self.agent = None
         self.tools = []
     
@@ -35,36 +38,94 @@ class MCPAgent:
         self.tools = []
         connection_errors = []
         failed_servers = {}
-        try:
-            print("MCPAgent: Fetching tools from MCP manager with failure handling...")
-            self.tools, failed_servers = await self.client.get_tools_with_failures()
-            print(f"MCPAgent: Successfully loaded {len(self.tools)} MCP tools")
+        resources = []
+        server_info = {}
+        
+        # Get server information from database for descriptions
+        db_manager = DatabaseManager()
+        db_servers = db_manager.get_mcp_servers(enabled_only=True)
+        server_descriptions = {server['name']: server['description'] for server in db_servers}
+        
+        # Check if we have cached tools and resources
+        if (MCPAgent._cached_tools is not None and 
+            MCPAgent._cached_resources is not None and 
+            MCPAgent._cached_server_info is not None):
+            print("MCPAgent: Using cached tools, resources, and server info")
+            self.tools = MCPAgent._cached_tools
+            resources = MCPAgent._cached_resources
+            server_info = MCPAgent._cached_server_info
+        else:
+            try:
+                print("MCPAgent: Fetching tools from MCP manager with failure handling...")
+                result = await self.client.get_tools_with_failures()
+                if len(result) == 3:
+                    self.tools, failed_servers, resources = result
+                else:
+                    # Handle case where only tools and resources are returned
+                    self.tools, resources = result[0], result[1]
+                    failed_servers = {}
+                print(f"MCPAgent: Successfully loaded {len(self.tools)} MCP tools")
+                
+                # Create server information with tools mapping
+                server_info = {}
+                # Group tools by server (this is a simplified approach)
+                for server_name in self.client.client.connections.keys():
+                    if server_name not in failed_servers:
+                        # Get tools for this server
+                        server_tools = [tool for tool in self.tools if hasattr(tool, 'name')]
+                        server_info[server_name] = {
+                            'description': server_descriptions.get(server_name, ''),
+                            'tools': server_tools
+                        }
+                
+                # Cache the tools, resources, and server info for future use
+                MCPAgent._cached_tools = self.tools
+                MCPAgent._cached_resources = resources
+                MCPAgent._cached_server_info = server_info
+                MCPAgent._cached_client = self.client
 
-            # Convert failed servers to connection errors for backward compatibility
-            for server_name, error_msg in failed_servers.items():
-                connection_errors.append(f"Server '{server_name}' failed: {error_msg}")
+                # Convert failed servers to connection errors for backward compatibility
+                for server_name, error_msg in failed_servers.items():
+                    connection_errors.append(f"Server '{server_name}' failed: {error_msg}")
 
-        except Exception as e:
-            error_msg = str(e)
-            print(f"MCPAgent: Warning: Could not load MCP tools: {error_msg}")
-            import traceback
-            traceback.print_exc()
-            self.tools = []
+            except Exception as e:
+                error_msg = str(e)
+                print(f"MCPAgent: Warning: Could not load MCP tools: {error_msg}")
+                import traceback
+                traceback.print_exc()
+                self.tools = []
 
-            # Check if this is a connection closed error
-            if "Connection closed" in error_msg or "connection closed" in error_msg.lower():
-                connection_errors.append(f"Connection closed error: {error_msg}")
+                # Check if this is a connection closed error
+                if "Connection closed" in error_msg or "connection closed" in error_msg.lower():
+                    connection_errors.append(f"Connection closed error: {error_msg}")
 
         # Create the tool validation callback
         self.validation_callback = ToolValidationCallback()
 
+        # Get system instructions from database
+        system_instructions = db_manager.get_system_instructions()
+        
+        # Create enhanced system prompt with server and tool information
+        enhanced_system_prompt = self._create_enhanced_system_prompt(
+            system_instructions, 
+            server_info, 
+            self.tools, 
+            resources
+        )
+        
         # Create LangChain agent with tools and callbacks
         print("MCPAgent: Creating LangChain agent...")
-        self.agent = create_agent(
-            model=chat_model,
-            tools=self.tools if self.tools else None,
-            debug=True
-        )
+        agent_kwargs = {
+            "model": chat_model,
+            "tools": self.tools if self.tools else None,
+            "debug": True
+        }
+        
+        # Add enhanced system prompt
+        if enhanced_system_prompt:
+            agent_kwargs["system_prompt"] = enhanced_system_prompt
+            
+        self.agent = create_agent(**agent_kwargs)
 
         print("MCPAgent: Agent created successfully")
 
@@ -73,9 +134,58 @@ class MCPAgent:
 
         return self
     
+    def _create_enhanced_system_prompt(self, base_instructions: Optional[str], 
+                                     server_info: Dict[str, Any], 
+                                     tools: List[Any], 
+                                     resources: List[Any]) -> str:
+        """Create an enhanced system prompt that includes server descriptions and tool information."""
+        prompt_parts = []
+        
+        # Add base instructions if available
+        if base_instructions:
+            prompt_parts.append(base_instructions)
+        else:
+            prompt_parts.append("You are a helpful AI assistant with access to various tools.")
+        
+        # Add server information
+        if server_info:
+            prompt_parts.append("\nAVAILABLE TOOL SERVERS:")
+            for server_name, info in server_info.items():
+                description = info.get('description', '')
+                if description:
+                    prompt_parts.append(f"- {server_name}: {description}")
+                else:
+                    prompt_parts.append(f"- {server_name}")
+        
+        # Add tool information (limit to avoid context window issues)
+        if tools:
+            prompt_parts.append("\nAVAILABLE TOOLS (use these appropriately based on the server they belong to):")
+            # Limit the number of tools to avoid context window issues
+            max_tools_to_show = 50  # Adjust based on model context window
+            for i, tool in enumerate(tools[:max_tools_to_show]):
+                if hasattr(tool, 'name') and hasattr(tool, 'description'):
+                    prompt_parts.append(f"- {tool.name}: {tool.description}")
+            
+            # If we have more tools than the limit, indicate that
+            if len(tools) > max_tools_to_show:
+                prompt_parts.append(f"... and {len(tools) - max_tools_to_show} more tools available.")
+        
+        # Add resource information if available
+        if resources:
+            prompt_parts.append(f"\nAVAILABLE RESOURCES: {len(resources)} resources available.")
+        
+        # Add guidance on tool selection
+        prompt_parts.append("\nIMPORTANT GUIDELINES:")
+        prompt_parts.append("- Choose the most appropriate tool based on the server it belongs to")
+        prompt_parts.append("- Only use tools that are relevant to the user's request")
+        prompt_parts.append("- If you're unsure which tool to use, ask for clarification")
+        prompt_parts.append("- Provide clear explanations for your actions")
+        
+        return "\n".join(prompt_parts)
+    
     def _create_chat_model(self, config: Dict[str, Any]):
         """Create a chat model based on the configuration."""
-        print(f"MCPAgent: Creating chat model with config: {config}")
+        # print(f"MCPAgent: Creating chat model with config: {config}")
         # Map provider to model class
         if config['provider'] == 'openai':
             return ChatOpenAI(
@@ -203,3 +313,11 @@ class MCPAgent:
             return self._extract_content(response[-1])
         else:
             return str(response)
+    
+    @classmethod
+    def clear_cache(cls):
+        """Clear the cached tools and resources."""
+        cls._cached_tools = None
+        cls._cached_resources = None
+        cls._cached_server_info = None
+        cls._cached_client = None

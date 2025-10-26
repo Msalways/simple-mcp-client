@@ -5,7 +5,7 @@ from typing import Dict, Any
 def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:
     """Fetch MCP servers from database and format them as server_config."""
     db_manager = DatabaseManager()
-    servers = db_manager.get_mcp_servers()
+    servers = db_manager.get_mcp_servers(enabled_only=True)
 
     server_config = {}
     for server in servers:
@@ -55,6 +55,21 @@ def fetch_mcp_servers_as_config() -> Dict[str, Dict[str, Any]]:
             if args_list:
                 # For http/sse, args might be used for additional config if supported
                 server_config[name]["args"] = args_list
+            
+            # Convert environment variables to HTTP headers for HTTP-based transports
+            if env_dict:
+                # Create headers from environment variables
+                headers = {}
+                for key, value in env_dict.items():
+                    # Convert environment variable names to header names
+                    # For example, COMPOSIO_API_KEY -> Authorization or custom header
+                    if key.upper() == 'COMPOSIO_API_KEY':
+                        # For Composio, the API key should be sent as a Bearer token
+                        headers['Authorization'] = f'Bearer {value}'
+                    else:
+                        # For other environment variables, use them as custom headers
+                        headers[key] = value
+                server_config[name]["headers"] = headers
             # Note: env not supported for http/sse transports - would cause TypeError
             # if env_dict:
             #     server_config[name]["env"] = env_dict

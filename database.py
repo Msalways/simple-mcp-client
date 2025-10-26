@@ -48,6 +48,20 @@ class DatabaseManager:
             )
         ''')
         
+        # Create system instructions table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS system_instructions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                content TEXT
+            )
+        ''')
+        
+        # Initialize with default empty instruction if table is empty
+        cursor.execute('SELECT COUNT(*) FROM system_instructions')
+        count = cursor.fetchone()[0]
+        if count == 0:
+            cursor.execute('INSERT INTO system_instructions (content) VALUES (?)', (None,))
+        
         conn.commit()
         conn.close()
     
@@ -231,6 +245,35 @@ class DatabaseManager:
             cursor = conn.cursor()
             
             cursor.execute('DELETE FROM llm_configs WHERE id = ?', (config_id,))
+            
+            conn.commit()
+            conn.close()
+            return True
+        except Exception:
+            return False
+    
+    def get_system_instructions(self) -> Optional[str]:
+        """Retrieve the system instructions."""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        cursor.execute('SELECT content FROM system_instructions ORDER BY id DESC LIMIT 1')
+        row = cursor.fetchone()
+        
+        conn.close()
+        
+        if row and row[0]:
+            return row[0]
+        return None
+    
+    def update_system_instructions(self, content: Optional[str]) -> bool:
+        """Update the system instructions."""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            # Insert new instruction (keeping history)
+            cursor.execute('INSERT INTO system_instructions (content) VALUES (?)', (content,))
             
             conn.commit()
             conn.close()

@@ -149,7 +149,7 @@ elif st.session_state.current_page == "Settings":
     st.title("⚙️ Settings")
     
     # Create tabs for different settings
-    tab1, tab2 = st.tabs(["MCP Servers", "LLM Configuration"])
+    tab1, tab2, tab3 = st.tabs(["MCP Servers", "LLM Configuration", "System Instructions"])
     
     with tab1:
         st.header("MCP Server Configuration")
@@ -172,6 +172,8 @@ elif st.session_state.current_page == "Settings":
                     st.rerun()
                 if cols[5].button("🗑️", key=f"delete_server_{server['id']}"):
                     db_manager.delete_mcp_server(server['id'])
+                    # Clear the MCPAgent cache since we deleted a server
+                    MCPAgent.clear_cache()
                     st.success(f"Server '{server['name']}' deleted!")
                     st.rerun()
         else:
@@ -215,6 +217,30 @@ elif st.session_state.current_page == "Settings":
             st.session_state.edit_config_data = None
             st.session_state.show_llm_modal = "add"
             st.rerun()
+            
+    with tab3:
+        st.header("System Instructions")
+        st.subheader("Agent System Instructions")
+        st.caption("Provide custom system instructions for the AI agent. These instructions will be used as the initial context for all conversations.")
+        
+        # Get current system instructions
+        current_instructions = db_manager.get_system_instructions()
+        
+        # Text area for system instructions
+        instructions = st.text_area(
+            "System Instructions",
+            value=current_instructions or "",
+            height=300,
+            placeholder="Enter system instructions for the AI agent here...\n\nExample:\nYou are a helpful assistant that specializes in mathematics and data analysis. Always provide step-by-step solutions to problems and explain your reasoning clearly."
+        )
+        
+        # Save button
+        if st.button("💾 Save Instructions"):
+            if db_manager.update_system_instructions(instructions if instructions.strip() else None):
+                st.success("System instructions saved successfully!")
+                st.rerun()
+            else:
+                st.error("Failed to save system instructions.")
 
 # Modal for MCP Server Configuration
 if st.session_state.show_mcp_modal:
@@ -464,6 +490,8 @@ if st.session_state.show_mcp_modal:
 
                     if db_manager.add_mcp_server(name, transport, command_param, args_param, env_param, url_param, description_param):
                         st.success(f"Server '{name}' added successfully!")
+                        # Clear the MCPAgent cache since we added a new server
+                        MCPAgent.clear_cache()
                         # Reset session state
                         st.session_state.add_server_transport = "stdio"
                         st.session_state.show_mcp_modal = False
@@ -498,6 +526,8 @@ if st.session_state.show_mcp_modal:
                         enabled=enabled
                     ):
                         st.success(f"Server '{name}' updated successfully!")
+                        # Clear the MCPAgent cache since we updated a server
+                        MCPAgent.clear_cache()
                         st.session_state.show_mcp_modal = False
                         st.session_state.edit_server_data = None
                         st.rerun()  # Refresh to show updated list
